@@ -2,14 +2,15 @@ package com.example.trevormobilefilm;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 
-public class MainActivity extends AppCompatActivity {
+public class SplashScreenActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-//        setTheme(R.style.SplashScreenTheme);
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        startActivity(new Intent(SplashScreenActivity.this, MainActivity.class));
+        finish();
     }
 }
