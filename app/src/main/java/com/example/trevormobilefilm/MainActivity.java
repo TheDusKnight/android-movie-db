@@ -17,34 +17,38 @@ import com.android.volley.toolbox.Volley;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class MainActivity extends AppCompatActivity {
+    // 设置全局 homeFragment，可能有问题？
+//    HomeFragment homeFragment = new HomeFragment();
+    HomeFragment homeFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-//        setTheme(R.style.SplashScreenTheme);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        final TextView textView = (TextView) findViewById(R.id.textView);
-        RequestQueue queue = Volley.newRequestQueue(this);
-        String url = "http://10.0.2.2:8080/top/tv";
-//        String url = "https://www.google.com";
-//        String url = "https://trevor-imdb-framework.wm.r.appspot.com/pop/movie";
-        // Request a string response from the provided URL.
-        StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
-                response -> {
-                    // Display the first 500 characters of the response string.
-                    textView.setText("Response is: "+ response.substring(0,500));
-                }, error -> textView.setText(error.toString()));
+        // TODO: Edit Volley example
+//        final TextView textView = (TextView) findViewById(R.id.textView);
+//        RequestQueue queue = Volley.newRequestQueue(this);
+//        String url = "http://10.0.2.2:8080/top/tv";
+//        // Request a string response from the provided URL.
+//        StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
+//                response -> {
+//                    // Display the first 500 characters of the response string.
+//                    textView.setText("Response is: "+ response.substring(0,500));
+//                }, error -> textView.setText(error.toString()));
+//        // Add the request to the RequestQueue.
+//        queue.add(stringRequest);
 
-        // Add the request to the RequestQueue.
-        queue.add(stringRequest);
+        // Pass data to HomeFragment with bundle
+        homeFragment = HomeFragment.newInstance("hello world ", 123);
 
+        // Create bottom nav
         BottomNavigationView bottomNav = findViewById(R.id.bottom_navigation);
         bottomNav.setOnNavigationItemSelectedListener(navListener);
 
         // Create and display HomeFragment onCreate
         getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
-                new HomeFragment()).commit();
+                homeFragment).commit();
     }
 
     private final BottomNavigationView.OnNavigationItemSelectedListener navListener =
@@ -55,7 +59,7 @@ public class MainActivity extends AppCompatActivity {
 
                     switch (item.getItemId()) {
                         case R.id.nav_home:
-                            selectedFragment = new HomeFragment();
+                            selectedFragment = homeFragment;
                             break;
                         case R.id.nav_search:
                             selectedFragment = new SearchFragment();
