@@ -3,28 +3,19 @@ package com.example.trevormobilefilm;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentResultListener;
 import androidx.fragment.app.FragmentTransaction;
 
 import android.os.Bundle;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.FrameLayout;
 import android.widget.TextView;
 
-import com.android.volley.Request;
-import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.StringRequest;
-import com.android.volley.toolbox.Volley;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class MainActivity extends AppCompatActivity {
     // 设置全局 homeFragment，可能有问题？
 //    HomeFragment homeFragment = new HomeFragment();
-    HomeFragment homeFragment;
+    HomeFragment movieFragment;
     HomeFragment tvFragment;
 
     @Override
@@ -38,24 +29,26 @@ public class MainActivity extends AppCompatActivity {
             public void onFragmentResult(@NonNull String requestKey, @NonNull Bundle result) {
                 String fileType = result.getString("bundleKey");
                 final TextView textView = (TextView) findViewById(R.id.textView);
+                FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
                 if (fileType.equals("movie")) {
-                    textView.setText("It is movie");
-
-                    // Switch from movie fragment to tv fragment
-                    FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-//                    ft.beginTransaction().add(R.id.fragment_container, tvFragment).commit();
-//                    ft.beginTransaction().hide(curFragment).commit();
-//                    getSupportFragmentManager().beginTransaction().hide(homeFragment).show(tvFragment).commit();
-                      ft.hide(homeFragment);
-                      ft.add(R.id.fragment_container, tvFragment, null);
-                      ft.commit();
-//                    getSupportFragmentManager().beginTransaction().show(tmpFragment);
-
+                    textView.setText("switch from movie to tv");
+                    ft.hide(movieFragment);
+                    if (tvFragment.isAdded()) {
+                        ft.show(tvFragment);
+                    } else {
+                        ft.add(R.id.fragment_container, tvFragment, null);
+                    }
                 }
-//                else {
-////                    getSupportFragmentManager().beginTransaction().replace(R.id.fragment_home, homeFragment);
-//                    getSupportFragmentManager().beginTransaction().hide(tvFragment).commit();
-//                }
+                else {
+                    textView.setText("switch from tv to movie");
+                    ft.hide(tvFragment);
+                    if (movieFragment.isAdded()) {
+                        ft.show(movieFragment);
+                    } else {
+                        ft.add(R.id.fragment_container, movieFragment, null);
+                    }
+                }
+                ft.commit();
             }
         });
 
@@ -73,7 +66,7 @@ public class MainActivity extends AppCompatActivity {
 //        queue.add(stringRequest);
 
         // Pass data to HomeFragment with bundle
-        homeFragment = HomeFragment.newInstance("movie", 1);
+        movieFragment = HomeFragment.newInstance("movie", 1);
         tvFragment = HomeFragment.newInstance("tv", 2);
 
         // Create bottom nav
@@ -81,10 +74,10 @@ public class MainActivity extends AppCompatActivity {
         bottomNav.setOnNavigationItemSelectedListener(navListener);
 
         // Create and display HomeFragment onCreate
-//        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
-//                homeFragment).commit();
-        getSupportFragmentManager().beginTransaction().add(R.id.fragment_container, homeFragment, null).commit();
-//        getSupportFragmentManager().beginTransaction().remove(homeFragment).commit();
+        // TODO: 改成add？
+        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
+                movieFragment).commit();
+//        getSupportFragmentManager().beginTransaction().add(R.id.fragment_container, movieFragment, null).commit();
     }
 
     private final BottomNavigationView.OnNavigationItemSelectedListener navListener =
@@ -95,7 +88,7 @@ public class MainActivity extends AppCompatActivity {
 
                     switch (item.getItemId()) {
                         case R.id.nav_home:
-                            selectedFragment = homeFragment;
+                            selectedFragment = movieFragment;
                             break;
                         case R.id.nav_search:
                             selectedFragment = new SearchFragment();

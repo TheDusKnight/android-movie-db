@@ -10,8 +10,6 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
 
 
 public class HomeFragment extends Fragment {
@@ -20,7 +18,7 @@ public class HomeFragment extends Fragment {
     private String filmType;
     private int number;
 
-    // 自己创建自己
+    // Self create
     public static HomeFragment newInstance(String text, int number) {
         HomeFragment fragment = new HomeFragment();
         Bundle args = new Bundle();
@@ -32,19 +30,27 @@ public class HomeFragment extends Fragment {
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        final TextView textView = (TextView) view.findViewById(R.id.home_text);
         TextView movieClick = (TextView) view.findViewById(R.id.movie_click);
         TextView tvClick = (TextView) view.findViewById(R.id.tv_click);
-
 
         movieClick.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                textView.setText(number + "");
-
-                Bundle result = new Bundle();
-                result.putString("bundleKey", filmType);
-                getParentFragmentManager().setFragmentResult("requestKey", result);
+                if (filmType.equals("tv")) {
+                    Bundle result = new Bundle();
+                    result.putString("bundleKey", filmType);
+                    getParentFragmentManager().setFragmentResult("requestKey", result);
+                }
+            }
+        });
+        tvClick.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (filmType.equals("movie")) {
+                    Bundle result = new Bundle();
+                    result.putString("bundleKey", filmType);
+                    getParentFragmentManager().setFragmentResult("requestKey", result);
+                }
             }
         });
 
@@ -68,8 +74,9 @@ public class HomeFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_home, container, false);
-        final TextView textView = (TextView) view.findViewById(R.id.home_text);
-        TextView movieClick = (TextView) view.findViewById(R.id.movie_click);
+        final TextView textView = view.findViewById(R.id.home_text);
+        TextView movieClick = view.findViewById(R.id.movie_click);
+        TextView tvClick = view.findViewById(R.id.tv_click);
 
         // Inflate menu in toolbar
 //        Toolbar toolbar = (Toolbar) view.findViewById(R.id.myToolbar);
@@ -81,8 +88,11 @@ public class HomeFragment extends Fragment {
             number = getArguments().getInt(ARG_NUMBER);
         }
         textView.setText("fragment" + number);
+
         if (filmType.equals("movie")) {
             movieClick.setTextColor(ContextCompat.getColor(getContext(), R.color.colorPrimary));
+        } else {
+            tvClick.setTextColor(ContextCompat.getColor(getContext(), R.color.colorPrimary));
         }
 
         return view;

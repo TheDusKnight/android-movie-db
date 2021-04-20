@@ -20,7 +20,6 @@
             android:layout_height="wrap_content"
             android:layout_marginEnd="25dp"
             android:layout_toStartOf="@+id/tv_click"
-            android:clickable="true"
             android:text="@string/movie_tab"
             android:textSize="17sp" />
 
@@ -28,7 +27,6 @@
         android:id="@+id/tv_click"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:clickable="true"
         android:text="@string/tv_tab"
         android:textSize="17sp"
         android:layout_alignParentEnd="true"
