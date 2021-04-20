@@ -40,8 +40,7 @@ public class HomeFragment extends Fragment {
         movieClick.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                textView.setText(filmType);
-                movieClick.setTextColor(ContextCompat.getColor(getContext(), R.color.colorPrimary));
+                textView.setText(number + "");
 
                 Bundle result = new Bundle();
                 result.putString("bundleKey", filmType);
@@ -70,6 +69,7 @@ public class HomeFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_home, container, false);
         final TextView textView = (TextView) view.findViewById(R.id.home_text);
+        TextView movieClick = (TextView) view.findViewById(R.id.movie_click);
 
         // Inflate menu in toolbar
 //        Toolbar toolbar = (Toolbar) view.findViewById(R.id.myToolbar);
@@ -81,6 +81,9 @@ public class HomeFragment extends Fragment {
             number = getArguments().getInt(ARG_NUMBER);
         }
         textView.setText("fragment" + number);
+        if (filmType.equals("movie")) {
+            movieClick.setTextColor(ContextCompat.getColor(getContext(), R.color.colorPrimary));
+        }
 
         return view;
     }
