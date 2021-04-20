@@ -10,13 +10,23 @@ import android.os.Bundle;
 import android.view.MenuItem;
 import android.widget.TextView;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 public class MainActivity extends AppCompatActivity {
-    // 设置全局 homeFragment，可能有问题？
-//    HomeFragment homeFragment = new HomeFragment();
     HomeFragment movieFragment;
     HomeFragment tvFragment;
+    RequestQueue mQueue;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,17 +63,10 @@ public class MainActivity extends AppCompatActivity {
         });
 
         // TODO: Edit Volley example
-//        final TextView textView = (TextView) findViewById(R.id.textView);
-//        RequestQueue queue = Volley.newRequestQueue(this);
-//        String url = "http://10.0.2.2:8080/top/tv";
-//        // Request a string response from the provided URL.
-//        StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
-//                response -> {
-//                    // Display the first 500 characters of the response string.
-//                    textView.setText("Response is: "+ response.substring(0,500));
-//                }, error -> textView.setText(error.toString()));
-//        // Add the request to the RequestQueue.
-//        queue.add(stringRequest);
+//        final TextView textView = findViewById(R.id.textView);
+        mQueue = VolleySingleton.getInstance(this).getRequestQueue();
+        jsonParse();
+
 
         // Pass data to HomeFragment with bundle
         movieFragment = HomeFragment.newInstance("movie", 1);
@@ -78,6 +81,37 @@ public class MainActivity extends AppCompatActivity {
         getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
                 movieFragment).commit();
 //        getSupportFragmentManager().beginTransaction().add(R.id.fragment_container, movieFragment, null).commit();
+    }
+
+    private void jsonParse() {
+        final TextView textView = findViewById(R.id.textView);
+        String url = "http://10.0.2.2:8080/top/tv";
+        // Request a string response from the provided URL.
+        JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, url, null,
+                response -> {
+                    try {
+                        JSONArray jsonArray = response.getJSONArray("results");
+
+                        for (int i = 0; i < jsonArray.length(); i++) {
+                            JSONObject mObject = jsonArray.getJSONObject(i);
+
+                            String posterPath = mObject.getString("poster_path");
+                            textView.append(posterPath + "\n");
+                        }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }, error -> error.printStackTrace());
+
+        mQueue.add(request);
+
+//        StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
+//                response -> {
+//                    // Display the first 500 characters of the response string.
+//                    textView.setText("Response is: "+ response.substring(0,500));
+//                }, error -> textView.setText(error.toString()));
+//        // Add the request to the RequestQueue.
+//        mQueue.add(stringRequest);
     }
 
     private final BottomNavigationView.OnNavigationItemSelectedListener navListener =
