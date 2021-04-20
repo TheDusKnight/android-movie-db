@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentResultListener;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.lifecycle.ViewModelProvider;
 
 import android.os.Bundle;
 import android.view.MenuItem;
@@ -27,11 +28,14 @@ public class MainActivity extends AppCompatActivity {
     HomeFragment movieFragment;
     HomeFragment tvFragment;
     RequestQueue mQueue;
+    private WatchViewModel watchViewModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        // Init view model in activity
+        watchViewModel = new ViewModelProvider(this).get(WatchViewModel.class);
 
         // Receive data from fragment
         getSupportFragmentManager().setFragmentResultListener("requestKey", this, new FragmentResultListener() {
@@ -97,6 +101,7 @@ public class MainActivity extends AppCompatActivity {
 
                             String posterPath = mObject.getString("poster_path");
                             textView.append(posterPath + "\n");
+                            watchViewModel.setText(posterPath);
                         }
                     } catch (JSONException e) {
                         e.printStackTrace();

@@ -10,11 +10,15 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
 
 
 public class HomeFragment extends Fragment {
     private static final String ARG_TEXT = "argText";
     private static final String ARG_NUMBER = "argNumber";
+    private WatchViewModel watchViewModel;
     private String filmType;
     private int number;
 
@@ -77,6 +81,8 @@ public class HomeFragment extends Fragment {
         final TextView textView = view.findViewById(R.id.home_text);
         TextView movieClick = view.findViewById(R.id.movie_click);
         TextView tvClick = view.findViewById(R.id.tv_click);
+        // Init view model in fragment
+        watchViewModel = new ViewModelProvider(requireActivity()).get(WatchViewModel.class);
 
         // Inflate menu in toolbar
 //        Toolbar toolbar = (Toolbar) view.findViewById(R.id.myToolbar);
@@ -87,7 +93,14 @@ public class HomeFragment extends Fragment {
             filmType = getArguments().getString(ARG_TEXT);
             number = getArguments().getInt(ARG_NUMBER);
         }
-        textView.setText("fragment" + number);
+
+        watchViewModel.getText().observe(getViewLifecycleOwner(), new Observer<CharSequence>() {
+            @Override
+            public void onChanged(CharSequence charSequence) {
+                textView.setText(charSequence);
+            }
+        });
+//        textView.setText("fragment" + number);
 
         if (filmType.equals("movie")) {
             movieClick.setTextColor(ContextCompat.getColor(getContext(), R.color.colorPrimary));
