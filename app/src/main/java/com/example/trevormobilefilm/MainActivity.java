@@ -3,6 +3,7 @@ package com.example.trevormobilefilm;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentResultListener;
 
 import android.os.Bundle;
 import android.view.MenuItem;
@@ -26,6 +27,18 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        // Receive data from fragment
+        getSupportFragmentManager().setFragmentResultListener("requestKey", this, new FragmentResultListener() {
+            @Override
+            public void onFragmentResult(@NonNull String requestKey, @NonNull Bundle result) {
+                String fileType = result.getString("bundleKey");
+                if (fileType.equals("movie")) {
+                    final TextView textView = (TextView) findViewById(R.id.textView);
+                    textView.setText("It is movie");
+                }
+            }
+        });
+
         // TODO: Edit Volley example
 //        final TextView textView = (TextView) findViewById(R.id.textView);
 //        RequestQueue queue = Volley.newRequestQueue(this);
@@ -40,7 +53,7 @@ public class MainActivity extends AppCompatActivity {
 //        queue.add(stringRequest);
 
         // Pass data to HomeFragment with bundle
-        homeFragment = HomeFragment.newInstance("hello world ", 123);
+        homeFragment = HomeFragment.newInstance("movie", 1);
 
         // Create bottom nav
         BottomNavigationView bottomNav = findViewById(R.id.bottom_navigation);

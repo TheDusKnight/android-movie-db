@@ -1,27 +1,23 @@
 package com.example.trevormobilefilm;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
-import com.android.volley.RequestQueue;
-import com.android.volley.toolbox.Volley;
 
 public class HomeFragment extends Fragment {
     private static final String ARG_TEXT = "argText";
     private static final String ARG_NUMBER = "argNumber";
-    private String text;
+    private String filmType;
     private int number;
 
     // 自己创建自己
@@ -34,10 +30,40 @@ public class HomeFragment extends Fragment {
         return fragment;
     }
 
-//    @Override
-//    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-//        super.onViewCreated(view, savedInstanceState);
-//    }
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        final TextView textView = (TextView) view.findViewById(R.id.home_text);
+        TextView movieClick = (TextView) view.findViewById(R.id.movie_click);
+        TextView tvClick = (TextView) view.findViewById(R.id.tv_click);
+
+
+        movieClick.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                textView.setText(filmType);
+                movieClick.setTextColor(ContextCompat.getColor(getContext(), R.color.colorPrimary));
+
+                Bundle result = new Bundle();
+                result.putString("bundleKey", filmType);
+                getParentFragmentManager().setFragmentResult("requestKey", result);
+            }
+        });
+
+//        Toolbar toolbar = (Toolbar) view.findViewById(R.id.myToolbar);
+//        toolbar.setOnMenuItemClickListener(item -> {
+//            switch (item.getItemId()) {
+//                // Navigate to different tabs
+//                case R.id.movie_tab:
+//                    textView.setText("movie tab clicked");
+//                    return true;
+//                case R.id.tv_tab:
+//                    textView.setText("tv tab clicked");
+//                    return true;
+//                default:
+//                    return false;
+//            }
+//        });
+    }
 
     @Nullable
     @Override
@@ -46,27 +72,16 @@ public class HomeFragment extends Fragment {
         final TextView textView = (TextView) view.findViewById(R.id.home_text);
 
         // Inflate menu in toolbar
-        Toolbar toolbar = (Toolbar) view.findViewById(R.id.myToolbar);
-        toolbar.inflateMenu(R.menu.toolbar_menu);
+//        Toolbar toolbar = (Toolbar) view.findViewById(R.id.myToolbar);
+//        toolbar.inflateMenu(R.menu.toolbar_menu);
 
+        // Get data from activity
         if (getArguments() != null) {
-            text = getArguments().getString(ARG_TEXT);
+            filmType = getArguments().getString(ARG_TEXT);
             number = getArguments().getInt(ARG_NUMBER);
         }
-
-        textView.setText(text + number);
-
-//        // Instantiate the RequestQueue.
-//        RequestQueue queue = Volley.newRequestQueue(this);
-//
-//
-//        Log.d("CREATION", String.valueOf(textView));
+        textView.setText("fragment" + number);
 
         return view;
-    }
-
-    @Override
-    public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
-
     }
 }
