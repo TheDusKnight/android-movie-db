@@ -29,7 +29,7 @@ public class MainActivity extends AppCompatActivity {
     HomeFragment tvFragment;
     RequestQueue mQueue;
     private WatchViewModel watchViewModel;
-    static final String URL = "http://10.0.2.2:8080";
+    public static final String URL = "http://10.0.2.2:8080";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
