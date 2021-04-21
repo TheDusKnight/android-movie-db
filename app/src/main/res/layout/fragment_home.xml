@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent" android:layout_height="match_parent"
     android:id="@+id/fragment_home">
 
@@ -7,12 +9,31 @@
         android:id="@+id/myToolbar"
         layout="@layout/toolbar" />
 
+    <com.smarteist.autoimageslider.SliderView
+        android:id="@+id/slider"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:layout_below="@id/myToolbar"
+        android:layout_margin="16dp"
+        app:sliderAnimationDuration="600"
+        app:sliderAutoCycleDirection="back_and_forth"
+        app:sliderIndicatorAnimationDuration="600"
+        app:sliderIndicatorEnabled="true"
+        app:sliderIndicatorGravity="center_horizontal|bottom"
+        app:sliderIndicatorOrientation="horizontal"
+        app:sliderIndicatorPadding="3dp"
+        app:sliderIndicatorMarginBottom="0dp"
+        app:sliderIndicatorRadius="1.2dp"
+        app:sliderIndicatorSelectedColor="#5A5A5A"
+        app:sliderIndicatorUnselectedColor="#FFF"
+        app:sliderScrollTimeInSec="1" />
+
     <TextView
         android:id="@+id/home_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Home"
         android:textSize="30sp"
-        android:layout_centerInParent="true" />
+        android:layout_alignParentBottom="true" />
 
 </RelativeLayout>
