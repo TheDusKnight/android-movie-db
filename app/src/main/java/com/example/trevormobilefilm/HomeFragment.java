@@ -50,14 +50,11 @@ public class HomeFragment extends Fragment {
         TextView movieClick = view.findViewById(R.id.movie_click);
         TextView tvClick = view.findViewById(R.id.tv_click);
 
-        movieClick.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (filmType.equals("tv")) {
-                    Bundle result = new Bundle();
-                    result.putString("bundleKey", filmType);
-                    getParentFragmentManager().setFragmentResult("requestKey", result);
-                }
+        movieClick.setOnClickListener(v -> {
+            if (filmType.equals("tv")) {
+                Bundle result = new Bundle();
+                result.putString("bundleKey", filmType);
+                getParentFragmentManager().setFragmentResult("requestKey", result);
             }
         });
         tvClick.setOnClickListener(new View.OnClickListener() {
@@ -147,7 +144,9 @@ public class HomeFragment extends Fragment {
             for (int i = 0; i < currentMovies.length(); i++) {
                 JSONObject mObject = currentMovies.getJSONObject(i);
                 String posterPath = mObject.getString("poster_path");
-                sliderDataArrayList.add(new SliderData(posterPath));
+                String filmType = mObject.getString("media_type");
+                int filmId = mObject.getInt("id");
+                sliderDataArrayList.add(new SliderData(posterPath, filmType, filmId));
             }
         } catch (JSONException e) {
             e.printStackTrace();
