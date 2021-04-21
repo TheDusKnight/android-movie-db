@@ -53,8 +53,7 @@ public class MainActivity extends AppCompatActivity {
                     } else {
                         ft.add(R.id.fragment_container, tvFragment, null);
                     }
-                }
-                else {
+                } else {
                     textView.setText("switch from tv to movie");
                     ft.hide(tvFragment);
                     if (movieFragment.isAdded()) {
@@ -67,34 +66,42 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        // TODO: Edit Volley example
         mQueue = VolleySingleton.getInstance(this).getRequestQueue();
-        // TODO: 如何在获取全部数据后再初始化movieFragment???? + loading spinner
-        jsonParse(URL + "/top/movie", result -> {
-            final TextView textView = findViewById(R.id.textView);
-            textView.setText("/top/movie");
-            watchViewModel.setText("/top/movie");
-            createFragment();
+        jsonParse(URL + "/current/movie", currentMovie -> {
+//            final TextView textView = findViewById(R.id.textView);
+//            textView.setText("/top/movie");
+            watchViewModel.setText("view model ok");
+            watchViewModel.setTopMovie(currentMovie);
+            jsonParse(URL + "/trend/tv", trendTv -> {
+                watchViewModel.setCurrentMovie(trendTv);
+                jsonParse(URL + "/top/movie", topMovie -> {
+                    watchViewModel.setTopMovie(topMovie);
+                    jsonParse(URL + "/top/tv", topTV -> {
+                        watchViewModel.setTopTv(topTV);
+                        jsonParse(URL + "/pop/movie", popMovie -> {
+                            watchViewModel.setPopMovie(popMovie);
+                            jsonParse(URL + "/pop/tv", popTv -> {
+                                watchViewModel.setPopTv(popTv);
+                                // TODO: add more requests
+                                createFragment();
+                            });
+                        });
+                    });
+                });
+            });
         });
-
-
-        // Pass data to HomeFragment with bundle
-//        movieFragment = HomeFragment.newInstance("movie", 1);
-//        tvFragment = HomeFragment.newInstance("tv", 2);
 
         // Create bottom nav
         BottomNavigationView bottomNav = findViewById(R.id.bottom_navigation);
         bottomNav.setOnNavigationItemSelectedListener(navListener);
-
-        // Create and display HomeFragment onCreate
-//        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
-//                movieFragment).commit();
-//        getSupportFragmentManager().beginTransaction().add(R.id.fragment_container, movieFragment, null).commit();
     }
 
-    private void createFragment() {
+    private void createFragment() { // Create and display HomeFragment onCreate
+        // Pass data to HomeFragment with bundle
         movieFragment = HomeFragment.newInstance("movie", 1);
         tvFragment = HomeFragment.newInstance("tv", 2);
+        // Create and display HomeFragment onCreate
+        //        getSupportFragmentManager().beginTransaction().add(R.id.fragment_container, movieFragment, null).commit();
         getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, movieFragment).commit();
     }
 
@@ -106,7 +113,6 @@ public class MainActivity extends AppCompatActivity {
                     try {
                         JSONArray jsonArray = response.getJSONArray("results");
                         callback.onSuccess(jsonArray);
-
 //                        for (int i = 0; i < jsonArray.length(); i++) {
 //                            JSONObject mObject = jsonArray.getJSONObject(i);
 //
@@ -114,7 +120,6 @@ public class MainActivity extends AppCompatActivity {
 //                            textView.append(posterPath + "\n");
 //                            watchViewModel.setText(posterPath);
 //                        }
-//                        createFragment();
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
@@ -147,7 +152,6 @@ public class MainActivity extends AppCompatActivity {
                         case R.id.nav_watchlist:
                             selectedFragment = new WatchlistFragment();
                             break;
-
                     }
                     getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
                             selectedFragment).commit();

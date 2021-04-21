@@ -100,7 +100,6 @@ public class HomeFragment extends Fragment {
 //                textView.setText(charSequence);
 //            }
 //        });
-        // TODO: 直接getValue为什么会没有显示，是否应该移到onViewCreated?
         if (watchViewModel.getText().getValue() != null) {
             textView.setText(watchViewModel.getText().getValue());
         } else {
@@ -108,9 +107,9 @@ public class HomeFragment extends Fragment {
         }
 
         if (filmType.equals("movie")) {
-            movieClick.setTextColor(ContextCompat.getColor(getContext(), R.color.colorPrimary));
-        } else {
             tvClick.setTextColor(ContextCompat.getColor(getContext(), R.color.colorPrimary));
+        } else {
+            movieClick.setTextColor(ContextCompat.getColor(getContext(), R.color.colorPrimary));
         }
 
         return view;

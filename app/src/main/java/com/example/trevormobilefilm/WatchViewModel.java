@@ -7,64 +7,83 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.util.List;
 
 public class WatchViewModel extends ViewModel {
     private final MutableLiveData<CharSequence> text = new MutableLiveData<>();
-    private final MutableLiveData<List<JSONObject>> topMovie = new MutableLiveData<>();
-    private final MutableLiveData<List<JSONObject>> topTv = new MutableLiveData<>();
-    private final MutableLiveData<List<JSONObject>> popMovie = new MutableLiveData<>();
-    private final MutableLiveData<List<JSONObject>> popTv = new MutableLiveData<>();
-    private final MutableLiveData<List<JSONObject>> recommendMovie = new MutableLiveData<>();
-    private final MutableLiveData<List<JSONObject>> recommendTv = new MutableLiveData<>();
+    private final MutableLiveData<JSONArray> currentMovie = new MutableLiveData<>();
+    private final MutableLiveData<JSONArray> trendTv = new MutableLiveData<>();
+    private final MutableLiveData<JSONArray> topMovie = new MutableLiveData<>();
+    private final MutableLiveData<JSONArray> topTv = new MutableLiveData<>();
+    private final MutableLiveData<JSONArray> popMovie = new MutableLiveData<>();
+    private final MutableLiveData<JSONArray> popTv = new MutableLiveData<>();
+    private final MutableLiveData<JSONArray> recommendMovie = new MutableLiveData<>();
+    private final MutableLiveData<JSONArray> recommendTv = new MutableLiveData<>();
 
-    public MutableLiveData<List<JSONObject>> getRecommendMovie() {
+    public MutableLiveData<JSONArray> getCurrentMovie() {
+        return currentMovie;
+    }
+
+    public MutableLiveData<JSONArray> getTrendTv() {
+        return trendTv;
+    }
+
+    public MutableLiveData<JSONArray> getRecommendMovie() {
         return recommendMovie;
     }
 
-    public MutableLiveData<List<JSONObject>> getRecommendTv() {
+    public MutableLiveData<JSONArray> getRecommendTv() {
         return recommendTv;
     }
 
-    public MutableLiveData<List<JSONObject>> getTopMovie() {
+    public MutableLiveData<JSONArray> getTopMovie() {
         return topMovie;
     }
 
-    public MutableLiveData<List<JSONObject>> getTopTv() {
+    public MutableLiveData<JSONArray> getTopTv() {
         return topTv;
     }
 
-    public MutableLiveData<List<JSONObject>> getPopMovie() {
+    public MutableLiveData<JSONArray> getPopMovie() {
         return popMovie;
     }
 
-    public MutableLiveData<List<JSONObject>> getPopTv() {
+    public MutableLiveData<JSONArray> getPopTv() {
         return popTv;
     }
 
-    public void setTopMovie(List<JSONObject> input) {
+    public void setCurrentMovie(JSONArray input) {
+        currentMovie.setValue(input);
+    }
+
+    public void setTrendTv(JSONArray input) {
+        trendTv.setValue(input);
+    }
+
+    public void setTopMovie(JSONArray input) {
         topMovie.setValue(input);
     }
 
-    public void setTopTv(List<JSONObject> input) {
+    public void setTopTv(JSONArray input) {
         topTv.setValue(input);
     }
 
-    public void setPopMovie(List<JSONObject> input) {
+    public void setPopMovie(JSONArray input) {
         popMovie.setValue(input);
     }
 
-    public void setPopTv(List<JSONObject> input) {
+    public void setPopTv(JSONArray input) {
         popTv.setValue(input);
     }
 
-    public void setRecommendMovie(List<JSONObject> input) {
+    public void setRecommendMovie(JSONArray input) {
         recommendMovie.setValue(input);
     }
 
-    public void setRecommendTv(List<JSONObject> input) {
+    public void setRecommendTv(JSONArray input) {
         recommendTv.setValue(input);
     }
 
