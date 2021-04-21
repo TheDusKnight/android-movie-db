@@ -29,6 +29,7 @@ public class MainActivity extends AppCompatActivity {
     HomeFragment tvFragment;
     RequestQueue mQueue;
     private WatchViewModel watchViewModel;
+    static final String URL = "http://10.0.2.2:8080";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,7 +43,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onFragmentResult(@NonNull String requestKey, @NonNull Bundle result) {
                 String fileType = result.getString("bundleKey");
-                final TextView textView = (TextView) findViewById(R.id.textView);
+                final TextView textView = findViewById(R.id.textView);
                 FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
                 if (fileType.equals("movie")) {
                     textView.setText("switch from movie to tv");
@@ -67,46 +68,57 @@ public class MainActivity extends AppCompatActivity {
         });
 
         // TODO: Edit Volley example
-//        final TextView textView = findViewById(R.id.textView);
         mQueue = VolleySingleton.getInstance(this).getRequestQueue();
-        jsonParse();
+        // TODO: 如何在获取全部数据后再初始化movieFragment???? + loading spinner
+        jsonParse(URL + "/top/movie", result -> {
+            final TextView textView = findViewById(R.id.textView);
+            textView.setText("/top/movie");
+            watchViewModel.setText("/top/movie");
+            createFragment();
+        });
 
 
         // Pass data to HomeFragment with bundle
-        movieFragment = HomeFragment.newInstance("movie", 1);
-        tvFragment = HomeFragment.newInstance("tv", 2);
+//        movieFragment = HomeFragment.newInstance("movie", 1);
+//        tvFragment = HomeFragment.newInstance("tv", 2);
 
         // Create bottom nav
         BottomNavigationView bottomNav = findViewById(R.id.bottom_navigation);
         bottomNav.setOnNavigationItemSelectedListener(navListener);
 
         // Create and display HomeFragment onCreate
-        // TODO: 改成add？
-        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
-                movieFragment).commit();
+//        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
+//                movieFragment).commit();
 //        getSupportFragmentManager().beginTransaction().add(R.id.fragment_container, movieFragment, null).commit();
     }
 
-    private void jsonParse() {
+    private void createFragment() {
+        movieFragment = HomeFragment.newInstance("movie", 1);
+        tvFragment = HomeFragment.newInstance("tv", 2);
+        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, movieFragment).commit();
+    }
+
+    private void jsonParse(String url, final VolleyCallback callback) {
         final TextView textView = findViewById(R.id.textView);
-        String url = "http://10.0.2.2:8080/top/tv";
         // Request a string response from the provided URL.
         JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, url, null,
                 response -> {
                     try {
                         JSONArray jsonArray = response.getJSONArray("results");
+                        callback.onSuccess(jsonArray);
 
-                        for (int i = 0; i < jsonArray.length(); i++) {
-                            JSONObject mObject = jsonArray.getJSONObject(i);
-
-                            String posterPath = mObject.getString("poster_path");
-                            textView.append(posterPath + "\n");
-                            watchViewModel.setText(posterPath);
-                        }
+//                        for (int i = 0; i < jsonArray.length(); i++) {
+//                            JSONObject mObject = jsonArray.getJSONObject(i);
+//
+//                            String posterPath = mObject.getString("poster_path");
+//                            textView.append(posterPath + "\n");
+//                            watchViewModel.setText(posterPath);
+//                        }
+//                        createFragment();
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
-                }, error -> error.printStackTrace());
+                }, Throwable::printStackTrace);
 
         mQueue.add(request);
 

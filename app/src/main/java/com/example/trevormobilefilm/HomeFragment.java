@@ -94,13 +94,18 @@ public class HomeFragment extends Fragment {
             number = getArguments().getInt(ARG_NUMBER);
         }
 
-        watchViewModel.getText().observe(getViewLifecycleOwner(), new Observer<CharSequence>() {
-            @Override
-            public void onChanged(CharSequence charSequence) {
-                textView.setText(charSequence);
-            }
-        });
-//        textView.setText("fragment" + number);
+//        watchViewModel.getText().observe(getViewLifecycleOwner(), new Observer<CharSequence>() {
+//            @Override
+//            public void onChanged(CharSequence charSequence) {
+//                textView.setText(charSequence);
+//            }
+//        });
+        // TODO: 直接getValue为什么会没有显示，是否应该移到onViewCreated?
+        if (watchViewModel.getText().getValue() != null) {
+            textView.setText(watchViewModel.getText().getValue());
+        } else {
+            textView.setText("view model not ready");
+        }
 
         if (filmType.equals("movie")) {
             movieClick.setTextColor(ContextCompat.getColor(getContext(), R.color.colorPrimary));
