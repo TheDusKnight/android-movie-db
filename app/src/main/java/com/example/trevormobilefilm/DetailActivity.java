@@ -47,24 +47,8 @@ public class DetailActivity extends AppCompatActivity {
             } catch (JSONException e) {
                 e.printStackTrace();
             }
-//            for (int i = 0; i < video.length(); i++) {
-//                JSONObject o = video.getJSONObject(i);
-//            }
             createYouTube(videoId);
         });
-
-//        // Add YouTube Player as lifecycle observer
-//        YouTubePlayerView youTubePlayerView = findViewById(R.id.youtube_player_view);
-//        getLifecycle().addObserver(youTubePlayerView);
-//
-//        youTubePlayerView.addYouTubePlayerListener(new AbstractYouTubePlayerListener() {
-//            @Override
-//            public void onReady(@NonNull YouTubePlayer youTubePlayer) {
-//                String videoId = "UpolBSznWp0";
-//                youTubePlayer.loadVideo(videoId, 0);
-//            }
-//        });
-////        youTubePlayerView.setVisibility(View.INVISIBLE);
 
         TextView textView = findViewById(R.id.detailText);
         textView.setText(filmId + filmType);
@@ -75,14 +59,14 @@ public class DetailActivity extends AppCompatActivity {
     private void createYouTube(String video) {
         // Add YouTube Player as lifecycle observer
         YouTubePlayerView youTubePlayerView = findViewById(R.id.youtube_player_view);
+        // TODO: 如果video key是tzkWB85ULJY，那么隐藏YouTube，显示backdrop_path图片
         getLifecycle().addObserver(youTubePlayerView);
 
         youTubePlayerView.addYouTubePlayerListener(new AbstractYouTubePlayerListener() {
             @Override
             public void onReady(@NonNull YouTubePlayer youTubePlayer) {
 //                String videoId = "UpolBSznWp0";
-                String videoId = video;
-                youTubePlayer.loadVideo(videoId, 0);
+                youTubePlayer.loadVideo(video, 0);
             }
         });
 //        youTubePlayerView.setVisibility(View.INVISIBLE);
