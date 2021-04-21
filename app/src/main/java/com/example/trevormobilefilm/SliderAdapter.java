@@ -42,14 +42,20 @@ public class SliderAdapter extends SliderViewAdapter<SliderAdapter.SliderAdapter
         final SliderData sliderItem = mSliderItems.get(position);
 
         // Glide is use to load image
-        // from url in your imageview.
+        // from url in your image view.
         Glide.with(viewHolder.itemView)
                 .load(sliderItem.getImgUrl())
 //                .transform(new BlurTransformation(viewHolder.itemView.getContext()))
                 .transform(
                         new MultiTransformation(
-                            new jp.wasabeef.glide.transformations.BlurTransformation(25, 2)))
+                            new jp.wasabeef.glide.transformations.BlurTransformation(25, 2)
+                        ))
                 .into(viewHolder.imageViewBackground);
+
+        Glide.with(viewHolder.itemView)
+                .load(sliderItem.getImgUrl())
+//                .transform(new jp.wasabeef.glide.transformations.CropTransformation(300, 340))
+                .into(viewHolder.imageViewFront);
     }
 
     // this method will return
@@ -64,10 +70,12 @@ public class SliderAdapter extends SliderViewAdapter<SliderAdapter.SliderAdapter
         // the views of our slider view.
         View itemView;
         ImageView imageViewBackground;
+        ImageView imageViewFront;
 
         public SliderAdapterViewHolder(View itemView) {
             super(itemView);
-            imageViewBackground = itemView.findViewById(R.id.myimage);
+            imageViewBackground = itemView.findViewById(R.id.top_image_back);
+            imageViewFront = itemView.findViewById(R.id.top_image_front);
             this.itemView = itemView;
         }
     }

@@ -4,11 +4,23 @@
     android:layout_height="match_parent">
 
     <!--Image we will display is our slider view-->
-    <ImageView
-        android:id="@+id/myimage"
-        android:layout_width="600dp"
-        android:layout_height="200dp"
-        android:layout_centerHorizontal="true"
-        android:contentDescription="@string/app_name" />
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginBottom="10dp">
+
+        <ImageView
+            android:id="@+id/top_image_back"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="fitXY"
+            android:contentDescription="@string/app_name" />
+
+        <ImageView
+            android:id="@+id/top_image_front"
+            android:layout_width="300dp"
+            android:layout_height="match_parent"
+            android:layout_gravity="center" />
+    </FrameLayout>
 
 </RelativeLayout>

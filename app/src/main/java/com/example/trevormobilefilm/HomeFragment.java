@@ -146,7 +146,7 @@ public class HomeFragment extends Fragment {
         try {
             for (int i = 0; i < currentMovies.length(); i++) {
                 JSONObject mObject = currentMovies.getJSONObject(i);
-                String posterPath = mObject.getString("backdrop_path");
+                String posterPath = mObject.getString("poster_path");
                 sliderDataArrayList.add(new SliderData(posterPath));
             }
         } catch (JSONException e) {
