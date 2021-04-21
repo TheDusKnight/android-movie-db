@@ -16,7 +16,7 @@ import java.util.List;
 import jp.wasabeef.glide.transformations.CropCircleTransformation;
 
 public class SliderAdapter extends SliderViewAdapter<SliderAdapter.SliderAdapterViewHolder> {
-    SliderAdapter context = this;
+
 
     // list for storing urls of images.
     private final List<SliderData> mSliderItems;
@@ -45,10 +45,10 @@ public class SliderAdapter extends SliderViewAdapter<SliderAdapter.SliderAdapter
         // from url in your imageview.
         Glide.with(viewHolder.itemView)
                 .load(sliderItem.getImgUrl())
-                .transform(new BlurTransformation(context))
-//                .transform(
-//                        new MultiTransformation(
-//                            new jp.wasabeef.glide.transformations.BlurTransformation(25, 2)))
+//                .transform(new BlurTransformation(viewHolder.itemView.getContext()))
+                .transform(
+                        new MultiTransformation(
+                            new jp.wasabeef.glide.transformations.BlurTransformation(25, 2)))
                 .into(viewHolder.imageViewBackground);
     }
 
