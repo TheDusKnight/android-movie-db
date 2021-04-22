@@ -9,6 +9,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.TableLayout;
+import android.widget.TableRow;
 import android.widget.TextView;
 
 import com.android.volley.Request;
@@ -104,6 +106,46 @@ public class DetailActivity extends AppCompatActivity {
             });
         });
 
+        fillCast(filmType, filmId);
+
+    }
+
+    private void fillCast(String filmType, int filmId) {
+        jsonParse(MainActivity.URL + "/" + filmType + "/cast/" + filmId, cast -> {
+            int[] castImgIds = new int[]{R.id.profile_image1, R.id.profile_image2, R.id.profile_image3,
+                    R.id.profile_image4, R.id.profile_image5, R.id.profile_image6};
+            int[] castNameIds = new int[]{R.id.name_text1, R.id.name_text2, R.id.name_text3,
+                    R.id.name_text4, R.id.name_text5, R.id.name_text6};
+            TextView castTitleView = findViewById(R.id.cast_title);
+            TableLayout castListView = findViewById(R.id.cast_layout);
+            // Hide all cast view if not cast
+            if (cast.length() < 1) {
+                castTitleView.setVisibility(View.GONE);
+                castListView.setVisibility(View.GONE);
+            } else {
+                for (int i = 0; i < cast.length(); i++) {
+                    String url = null;
+                    String name = "N/A";
+                    ImageView castImg = findViewById(castImgIds[i]);
+                    TextView castName = findViewById(castNameIds[i]);
+                    castImg.setVisibility(View.VISIBLE);
+                    castName.setVisibility(View.VISIBLE);
+                    try {
+                        url = cast.getJSONObject(i).getString("profile_path");
+                        name = cast.getJSONObject(i).getString("name");
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                    Glide.with(this).load(url).into(castImg);
+                    castName.setText(name);
+                }
+                // Show less views if less than 4
+                if (cast.length() < 4) {
+                    findViewById(R.id.less_cast_name).setVisibility(View.GONE);
+                    findViewById(R.id.less_cast_img).setVisibility(View.GONE);
+                }
+            }
+        });
     }
 
     private void createYouTube(String videoId, String backDropImage) {

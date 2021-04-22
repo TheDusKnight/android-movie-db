@@ -127,8 +127,6 @@ public class HomeFragment extends Fragment {
             createSliderView(view, trendTv);
         }
 
-//        Glide.with(this).load("https://futurestud.io/blog/content/images/2014/12/BLURRY.jpg").into(test);
-
         return view;
     }
 
