@@ -20,24 +20,92 @@
             app:showFullScreenButton="true"
             app:showYouTubeButton="true">
 
-            <ImageView
-                android:id="@+id/youtube_alter_view"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:visibility="invisible"
-                tools:srcCompat="@tools:sample/backgrounds/scenic" />
+
         </com.pierfrancescosoffritti.androidyoutubeplayer.core.player.views.YouTubePlayerView>
+        <ImageView
+            android:id="@+id/back_drop_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:contentDescription="@string/no_value" />
     </LinearLayout>
 
     <TextView
-        android:id="@+id/detailText"
+        android:id="@+id/title_text"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/youtube_player_layout"
         android:layout_alignParentStart="true"
         android:textColor="@color/white"
         android:background="@drawable/rounded_corner"
-        android:textSize="30sp"
+        android:textSize="25sp"
         android:textStyle="bold"
-        android:text="N/A" />
+        android:text="@string/no_value"/>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/title_text"
+        android:padding="10dp">
+
+        <TextView
+            android:id="@+id/overview_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="22sp"
+            android:textStyle="bold"
+            android:text="@string/overview"
+            android:textColor="@color/colorPrimary"
+            />
+        <com.borjabravo.readmoretextview.ReadMoreTextView
+            android:id="@+id/overview_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/overview_title"
+            android:textSize="17sp"
+            app:trimMode="trimModeLength"
+            app:trimLength="170"
+            app:trimExpandedText="show more"
+            app:trimCollapsedText="show less"
+            app:colorClickableText="@color/gray"
+            />
+        <TextView
+            android:id="@+id/genres_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/overview_text"
+            android:textSize="22sp"
+            android:textStyle="bold"
+            android:text="@string/genres"
+            android:textColor="@color/colorPrimary"
+            />
+        <TextView
+            android:id="@+id/genres_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/genres_title"
+            android:textSize="17sp"
+            />
+        <TextView
+            android:id="@+id/year_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/genres_text"
+            android:textSize="22sp"
+            android:textStyle="bold"
+            android:text="@string/year"
+            android:textColor="@color/colorPrimary"
+            />
+        <TextView
+            android:id="@+id/year_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/year_title"
+            android:textSize="17sp"
+            />
+
+
+    </RelativeLayout>
+
+
+
 </RelativeLayout>

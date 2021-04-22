@@ -3,4 +3,8 @@
     <string name="title_name">USC Films</string>
     <string name="movie_tab">Movies</string>
     <string name="tv_tab">TV Shows</string>
+    <string name="no_value">N/A</string>
+    <string name="overview">Overview</string>
+    <string name="genres">Genres</string>
+    <string name="year">Year</string>
 </resources>
