@@ -45,4 +45,5 @@ dependencies {
     implementation 'jp.wasabeef:glide-transformations:3.0.1'
     implementation 'com.pierfrancescosoffritti.androidyoutubeplayer:core:10.0.5'
     implementation 'com.borjabravo:readmoretextview:2.1.0'
+    implementation 'de.hdodenhof:circleimageview:3.1.0'
 }
