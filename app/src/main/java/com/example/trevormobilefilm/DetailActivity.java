@@ -47,6 +47,7 @@ public class DetailActivity extends AppCompatActivity {
             } catch (JSONException e) {
                 e.printStackTrace();
             }
+            // Create YouTube player or set background image
             createYouTube(videoId);
         });
 
@@ -56,20 +57,22 @@ public class DetailActivity extends AppCompatActivity {
 
     }
 
-    private void createYouTube(String video) {
+    private void createYouTube(String videoId) {
         // Add YouTube Player as lifecycle observer
         YouTubePlayerView youTubePlayerView = findViewById(R.id.youtube_player_view);
-        // TODO: 如果video key是tzkWB85ULJY，那么隐藏YouTube，显示backdrop_path图片
-        getLifecycle().addObserver(youTubePlayerView);
+        if (!videoId.equals("tzkWB85ULJY") && !videoId.isEmpty()) {
+            getLifecycle().addObserver(youTubePlayerView);
 
-        youTubePlayerView.addYouTubePlayerListener(new AbstractYouTubePlayerListener() {
-            @Override
-            public void onReady(@NonNull YouTubePlayer youTubePlayer) {
-//                String videoId = "UpolBSznWp0";
-                youTubePlayer.loadVideo(video, 0);
+            youTubePlayerView.addYouTubePlayerListener(new AbstractYouTubePlayerListener() {
+                                                           @Override
+                                                           public void onReady(@NonNull YouTubePlayer youTubePlayer) {
+                    youTubePlayer.cueVideo(videoId, 0);
             }
-        });
-//        youTubePlayerView.setVisibility(View.INVISIBLE);
+            });
+        } else {
+            // TODO: 如果video key是tzkWB85ULJY，那么隐藏YouTube，显示backdrop_path图片
+            youTubePlayerView.setVisibility(View.INVISIBLE);
+        }
     }
 
     private void jsonParse(String url, final VolleyCallback callback) {

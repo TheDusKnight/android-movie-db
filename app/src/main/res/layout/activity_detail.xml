@@ -7,10 +7,9 @@
     tools:context=".DetailActivity">
 
     <LinearLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/youtube_player_layout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:orientation="vertical" >
 
         <com.pierfrancescosoffritti.androidyoutubeplayer.core.player.views.YouTubePlayerView
@@ -19,14 +18,26 @@
             android:layout_height="wrap_content"
             app:autoPlay="false"
             app:showFullScreenButton="true"
-            app:showYouTubeButton="true"/>
+            app:showYouTubeButton="true">
+
+            <ImageView
+                android:id="@+id/youtube_alter_view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:visibility="invisible"
+                tools:srcCompat="@tools:sample/backgrounds/scenic" />
+        </com.pierfrancescosoffritti.androidyoutubeplayer.core.player.views.YouTubePlayerView>
     </LinearLayout>
 
     <TextView
         android:id="@+id/detailText"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="TextView"
-        android:layout_alignParentBottom="true"
-        />
+        android:layout_below="@+id/youtube_player_layout"
+        android:layout_alignParentStart="true"
+        android:textColor="@color/white"
+        android:background="@drawable/rounded_corner"
+        android:textSize="30sp"
+        android:textStyle="bold"
+        android:text="N/A" />
 </RelativeLayout>
