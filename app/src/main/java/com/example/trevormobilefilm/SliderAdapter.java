@@ -65,12 +65,12 @@ public class SliderAdapter extends SliderViewAdapter<SliderAdapter.SliderAdapter
         viewHolder.imageViewFront.setOnClickListener(v -> {
             Intent intent = new Intent(context, DetailActivity.class);
             intent.putExtras(args);
-            context.startActivity(intent, args);
+            context.startActivity(intent);
         });
         viewHolder.imageViewBackground.setOnClickListener(v -> {
             Intent intent = new Intent(context, DetailActivity.class);
-            context.startActivity(intent, args);
             intent.putExtras(args);
+            context.startActivity(intent);
         });
     }
 

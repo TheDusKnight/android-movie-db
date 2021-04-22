@@ -2,6 +2,7 @@ package com.example.trevormobilefilm;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.cardview.widget.CardView;
 import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProvider;
 
@@ -27,11 +28,14 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Date;
 import java.util.List;
 import java.text.SimpleDateFormat;
 import java.util.Locale;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
+// TODO: watchlist icon and twitter
 public class DetailActivity extends AppCompatActivity {
     private WatchViewModel detailViewModel;
     RequestQueue mQueue;
@@ -107,7 +111,73 @@ public class DetailActivity extends AppCompatActivity {
         });
 
         fillCast(filmType, filmId);
+        fillReview(filmType, filmId);
 
+
+    }
+
+    private void fillReview(String filmType, int filmId) {
+        jsonParse(MainActivity.URL + "/" + filmType + "/review/" + filmId, review -> {
+            int[] cardId = new int[]{R.id.card_view1, R.id.card_view2, R.id.card_view3};
+            int[] titleId = new int[]{R.id.review_title1, R.id.review_title2, R.id.review_title3};
+            int[] rateId = new int[]{R.id.review_rate1, R.id.review_rate2, R.id.review_rate3};
+            int[] contentId = new int[]{R.id.review_content1, R.id.review_content2, R.id.review_content3};
+            if (review.length() > 0) {
+                TextView reviewTitleView = findViewById(R.id.reviews_title);
+                reviewTitleView.setVisibility(View.VISIBLE);
+                for (int i = 0; i < review.length(); i++) {
+                    String rate = "N/A";
+                    String name = "N/A";
+                    String date = "N/A";
+                    String reviewText = "N/A";
+
+                    CardView cardView = findViewById(cardId[i]);
+                    TextView titleView = findViewById(titleId[i]);
+                    TextView rateView = findViewById(rateId[i]);
+                    TextView contentView = findViewById(contentId[i]);
+
+                    try {
+                        rate = review.getJSONObject(i).getString("rating") != null
+                                ? review.getJSONObject(i).getString("rating") + "/5" : "N/A";
+                        name = review.getJSONObject(i).getString("author") != null
+                                ? review.getJSONObject(i).getString("author") : "N/A";
+                        String dateRaw = review.getJSONObject(i).getString("created_at");
+                        if (dateRaw != null) {
+                            DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
+                            Date d = dateFormat.parse(dateRaw);
+                            DateFormat df = new SimpleDateFormat("E, MMM dd yyyy");
+                            date = df.format(d);
+                        } else {
+                            date = "N/A";
+                        }
+                        reviewText = review.getJSONObject(i).getString("content");
+                    } catch (Exception ex) {
+                        ex.printStackTrace();
+                    }
+                    String title = "by " + name + " on " + date;
+                    titleView.setText(title);
+                    rateView.setText(rate);
+                    contentView.setText(reviewText);
+                    cardView.setVisibility(View.VISIBLE);
+
+                    // set click for each card
+                    String finalRate = rate;
+                    String finalName = name;
+                    String finalDate = date;
+                    String finalReviewText = reviewText;
+                    cardView.setOnClickListener(v -> {
+                        Bundle result = new Bundle();
+                        result.putString("rateKey", finalRate);
+                        result.putString("nameKey", finalName);
+                        result.putString("dateKey", finalDate);
+                        result.putString("contentKey", finalReviewText);
+                        Intent intent = new Intent(this, ReviewActivity.class);
+                        intent.putExtras(result);
+                        startActivity(intent);
+                    });
+                }
+            }
+        });
     }
 
     private void fillCast(String filmType, int filmId) {

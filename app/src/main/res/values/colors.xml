@@ -10,5 +10,7 @@
     <color name="colorPrimary">#316EAF</color>
     <color name="colorSplashBackground">#1E272D</color>
     <color name="primaryBackground">#1E272D</color>
+    <color name="cardBackground">#1E272D</color>
     <color name="gray">#969696</color>
+    <color name="blue">#0D47A1</color>
 </resources>

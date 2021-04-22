@@ -17,7 +17,8 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.TrevorMobileFilm"
         android:usesCleartextTraffic="true">
-        <activity android:name=".DetailActivity"></activity>
+        <activity android:name=".ReviewActivity"></activity>
+        <activity android:name=".DetailActivity" />
         <activity
             android:name=".SplashScreenActivity"
             android:theme="@style/SplashScreenTheme">
