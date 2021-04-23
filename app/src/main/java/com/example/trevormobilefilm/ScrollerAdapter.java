@@ -2,6 +2,7 @@ package com.example.trevormobilefilm;
 
 import android.content.Context;
 import android.view.LayoutInflater;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -41,24 +42,35 @@ public class ScrollerAdapter extends RecyclerView.Adapter<ScrollerAdapter.Scroll
     public void onBindViewHolder(@NonNull ScrollerViewHolder holder, int position) {
         CardData currentItem = mScrollerItems.get(position);
 
-//        Glide.with(holder.mItemView).load(currentItem.getImgUrl())
-//        .apply(RequestOptions.
-//                bitmapTransform((new RoundedCornersTransformation(128, 0,
-//                        RoundedCornersTransformation.CornerType.ALL))))
-//        .into(holder.mImageView);
         Picasso.get().load(currentItem.getImgUrl())
                 .transform(new RoundedTransformation(60, 0))
                 .into(holder.mImageView);
-//        holder.mMenu.setText(currentItem.getFilmName());
+
         holder.mMenu.setOnClickListener( v -> {
             // Initializing the popup menu and giving the reference as current context
             PopupMenu popupMenu = new PopupMenu(mContext, holder.mMenu);
             // Inflating popup menu from popup_menu.xml file
             popupMenu.getMenuInflater().inflate(R.menu.popup_menu, popupMenu.getMenu());
+            // Set menu title whenever click the menu button
+            Menu menuOpts = popupMenu.getMenu();
+            menuOpts.findItem(R.id.menu_watchlist).setTitle("hahaha");
+            // Set popup menu click listener
             popupMenu.setOnMenuItemClickListener(menuItem -> {
                 // Toast message on menu item clicked
-                Toast.makeText(mContext, menuItem.getTitle(), Toast.LENGTH_SHORT).show();
-                return true;
+                switch (menuItem.getItemId()) {
+                    case R.id.menu_tmdb:
+                        return true;
+                    case R.id.menu_facebook:
+                        return true;
+                    case R.id.menu_twitter:
+                        return true;
+                    case R.id.menu_watchlist:
+                        Toast.makeText(mContext, menuItem.getTitle(), Toast.LENGTH_SHORT).show();
+                        // TODO: store boolean to "add" in View Model
+                        return true;
+                    default:
+                        return false;
+                }
             });
             // Showing the popup menu
             popupMenu.show();

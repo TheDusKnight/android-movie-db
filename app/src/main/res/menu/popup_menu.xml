@@ -15,6 +15,6 @@
 
     <item
         android:id="@+id/menu_watchlist"
-        android:title="Remove from Watchlist" />
+        android:title="Add to Watchlist" />
 
 </menu>
