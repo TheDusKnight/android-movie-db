@@ -10,6 +10,7 @@ import androidx.lifecycle.ViewModel;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import java.util.HashMap;
 import java.util.List;
 
 public class WatchViewModel extends ViewModel {
@@ -22,6 +23,16 @@ public class WatchViewModel extends ViewModel {
     private final MutableLiveData<JSONArray> popTv = new MutableLiveData<>();
     private final MutableLiveData<JSONArray> recommendMovie = new MutableLiveData<>();
     private final MutableLiveData<JSONArray> recommendTv = new MutableLiveData<>();
+    private final MutableLiveData<List<Integer>> addList = new MutableLiveData<>();
+    private final MutableLiveData<HashMap<Integer, JSONObject>> addMap = new MutableLiveData<>();
+
+    public MutableLiveData<List<Integer>> getAddList() {
+        return addList;
+    }
+
+    public MutableLiveData<HashMap<Integer, JSONObject>> getAddMap() {
+        return addMap;
+    }
 
     public MutableLiveData<JSONArray> getCurrentMovie() {
         return currentMovie;
@@ -93,6 +104,14 @@ public class WatchViewModel extends ViewModel {
 
     public void setText(CharSequence input) {
         text.setValue(input);
+    }
+
+    public void setAddList(List<Integer> input) {
+        addList.setValue(input);
+    }
+
+    public void setAddMap(HashMap<Integer, JSONObject> input) {
+        addMap.setValue(input);
     }
 
 }
