@@ -36,4 +36,10 @@
         android:textSize="30sp"
         android:layout_alignParentBottom="true" />
 
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/top_scroller"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/slider"/>
+
 </RelativeLayout>

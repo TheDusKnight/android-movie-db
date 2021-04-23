@@ -9,4 +9,5 @@
     <string name="year">Year</string>
     <string name="cast">Cast</string>
     <string name="reviews">Reviews</string>
+    <string name="card">card</string>
 </resources>

@@ -18,7 +18,6 @@ import java.util.List;
 public class SliderAdapter extends SliderViewAdapter<SliderAdapter.SliderAdapterViewHolder> {
     static final String FILM_ID = "filmId";
     static final String FILM_TYPE = "fileType";
-
     // list for storing urls of images.
     private final List<SliderData> mSliderItems;
     public Context context;
@@ -80,10 +79,10 @@ public class SliderAdapter extends SliderViewAdapter<SliderAdapter.SliderAdapter
         return mSliderItems.size();
     }
 
-    static class SliderAdapterViewHolder extends SliderViewAdapter.ViewHolder {
+    public static class SliderAdapterViewHolder extends SliderViewAdapter.ViewHolder {
         // Adapter class for initializing
         // the views of our slider view.
-        View itemView;
+        public View itemView;
         ImageView imageViewBackground;
         ImageView imageViewFront;
 
