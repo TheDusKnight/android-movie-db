@@ -4,7 +4,24 @@ public class CardData {
     private String imgUrl;
     private boolean add;
     private String filmType;
+    private String filmName;
     private int filmId;
+
+    public CardData(String imgUrl, boolean add, String filmType, String filmName, int filmId) {
+        this.imgUrl = imgUrl;
+        this.add = add;
+        this.filmType = filmType;
+        this.filmName = filmName;
+        this.filmId = filmId;
+    }
+
+    public String getFilmName() {
+        return filmName;
+    }
+
+    public void setFilmName(String filmName) {
+        this.filmName = filmName;
+    }
 
     public String getImgUrl() {
         return imgUrl;
@@ -35,13 +52,6 @@ public class CardData {
     }
 
     public void setFilmId(int filmId) {
-        this.filmId = filmId;
-    }
-
-    public CardData(String imgUrl, boolean add, String filmType, int filmId) {
-        this.imgUrl = imgUrl;
-        this.add = add;
-        this.filmType = filmType;
         this.filmId = filmId;
     }
 }

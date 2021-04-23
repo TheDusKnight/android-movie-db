@@ -12,18 +12,10 @@
         android:layout_height="wrap_content"
         android:contentDescription="@string/card"
         tools:src="@drawable/ic_launcher_background"
-        android:foreground="@drawable/gradient"
-         />
+        android:foreground="@drawable/gradient" />
 
     <TextView
         android:id="@+id/detail_menu"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:text="Hello" />
-
-    <TextView
-        android:id="@+id/pop_up"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:drawableLeftCompat="@drawable/ic_baseline_more_vert_24"

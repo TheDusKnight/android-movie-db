@@ -45,7 +45,6 @@ public class SliderAdapter extends SliderViewAdapter<SliderAdapter.SliderAdapter
         // from url in your image view.
         Glide.with(viewHolder.itemView)
                 .load(sliderItem.getImgUrl())
-//                .transform(new BlurTransformation(viewHolder.itemView.getContext()))
                 .transform(
                         new MultiTransformation(
                             new jp.wasabeef.glide.transformations.BlurTransformation(25, 2)

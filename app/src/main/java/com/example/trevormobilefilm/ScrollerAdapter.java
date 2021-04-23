@@ -2,22 +2,21 @@ package com.example.trevormobilefilm;
 
 import android.content.Context;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.PopupMenu;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.request.RequestOptions;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import jp.wasabeef.glide.transformations.RoundedCornersTransformation;
 
 public class ScrollerAdapter extends RecyclerView.Adapter<ScrollerAdapter.ScrollerViewHolder> {
     static final String FILM_ID = "filmId";
@@ -50,7 +49,20 @@ public class ScrollerAdapter extends RecyclerView.Adapter<ScrollerAdapter.Scroll
         Picasso.get().load(currentItem.getImgUrl())
                 .transform(new RoundedTransformation(60, 0))
                 .into(holder.mImageView);
-        holder.mMenu.setText(currentItem.getFilmId() + "");
+//        holder.mMenu.setText(currentItem.getFilmName());
+        holder.mMenu.setOnClickListener( v -> {
+            // Initializing the popup menu and giving the reference as current context
+            PopupMenu popupMenu = new PopupMenu(mContext, holder.mMenu);
+            // Inflating popup menu from popup_menu.xml file
+            popupMenu.getMenuInflater().inflate(R.menu.popup_menu, popupMenu.getMenu());
+            popupMenu.setOnMenuItemClickListener(menuItem -> {
+                // Toast message on menu item clicked
+                Toast.makeText(mContext, menuItem.getTitle(), Toast.LENGTH_SHORT).show();
+                return true;
+            });
+            // Showing the popup menu
+            popupMenu.show();
+        });
     }
 
     @Override

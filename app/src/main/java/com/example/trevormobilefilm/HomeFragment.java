@@ -148,10 +148,11 @@ public class HomeFragment extends Fragment {
                 JSONObject mObject = topMovies.getJSONObject(i);
                 String posterPath = mObject.getString("poster_path");
                 String filmType = mObject.getString("media_type");
+                String filmName = mObject.getString("name");
                 int filmId = mObject.getInt("id");
                 // TODO: set "add" field and listener from ViewModel to change SharePreferences
                 boolean add = false;
-                cardDataArrayList.add(new CardData(posterPath, add, filmType, filmId));
+                cardDataArrayList.add(new CardData(posterPath, add, filmType, filmName, filmId));
             }
         } catch (JSONException e) {
             e.printStackTrace();
