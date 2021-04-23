@@ -41,7 +41,6 @@ public class SliderAdapter extends SliderViewAdapter<SliderAdapter.SliderAdapter
     public void onBindViewHolder(SliderAdapterViewHolder viewHolder, final int position) {
 
         final SliderData sliderItem = mSliderItems.get(position);
-        // TODO: slideItem.getFileId to create new activity
 
         // Glide is use to load image
         // from url in your image view.
@@ -81,7 +80,7 @@ public class SliderAdapter extends SliderViewAdapter<SliderAdapter.SliderAdapter
         return mSliderItems.size();
     }
 
-    class SliderAdapterViewHolder extends SliderViewAdapter.ViewHolder {
+    static class SliderAdapterViewHolder extends SliderViewAdapter.ViewHolder {
         // Adapter class for initializing
         // the views of our slider view.
         View itemView;
