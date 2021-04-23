@@ -112,8 +112,6 @@ public class DetailActivity extends AppCompatActivity {
 
         fillCast(filmType, filmId);
         fillReview(filmType, filmId);
-
-
     }
 
     private void fillReview(String filmType, int filmId) {
@@ -143,9 +141,9 @@ public class DetailActivity extends AppCompatActivity {
                                 ? review.getJSONObject(i).getString("author") : "anonymous user";
                         String dateRaw = review.getJSONObject(i).getString("created_at");
                         if (dateRaw != null) {
-                            DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
+                            DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", Locale.US);
                             Date d = dateFormat.parse(dateRaw);
-                            DateFormat df = new SimpleDateFormat("E, MMM dd yyyy");
+                            DateFormat df = new SimpleDateFormat("E, MMM dd yyyy", Locale.US);
                             date = df.format(d);
                         } else {
                             date = "N/A";
