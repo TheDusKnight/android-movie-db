@@ -138,9 +138,9 @@ public class DetailActivity extends AppCompatActivity {
 
                     try {
                         rate = review.getJSONObject(i).getString("rating") != null
-                                ? review.getJSONObject(i).getString("rating") + "/5" : "N/A";
+                                ? review.getJSONObject(i).getString("rating") + "/5" : "0/5";
                         name = review.getJSONObject(i).getString("author") != null
-                                ? review.getJSONObject(i).getString("author") : "N/A";
+                                ? review.getJSONObject(i).getString("author") : "anonymous user";
                         String dateRaw = review.getJSONObject(i).getString("created_at");
                         if (dateRaw != null) {
                             DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
@@ -195,7 +195,7 @@ public class DetailActivity extends AppCompatActivity {
             } else {
                 for (int i = 0; i < cast.length(); i++) {
                     String url = null;
-                    String name = "N/A";
+                    String name = "";
                     ImageView castImg = findViewById(castImgIds[i]);
                     TextView castName = findViewById(castNameIds[i]);
                     castImg.setVisibility(View.VISIBLE);
