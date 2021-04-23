@@ -161,7 +161,7 @@ public class HomeFragment extends Fragment {
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this.getContext(),
                 LinearLayoutManager.HORIZONTAL, false);
         scrollView.setLayoutManager(layoutManager);
-        scrollView.setItemAnimator(new DefaultItemAnimator());
+//        scrollView.setItemAnimator(new DefaultItemAnimator());
         scrollView.setAdapter(adapter);
     }
 

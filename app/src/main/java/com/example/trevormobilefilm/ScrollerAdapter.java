@@ -11,9 +11,13 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import jp.wasabeef.glide.transformations.RoundedCornersTransformation;
 
 public class ScrollerAdapter extends RecyclerView.Adapter<ScrollerAdapter.ScrollerViewHolder> {
     static final String FILM_ID = "filmId";
@@ -38,7 +42,14 @@ public class ScrollerAdapter extends RecyclerView.Adapter<ScrollerAdapter.Scroll
     public void onBindViewHolder(@NonNull ScrollerViewHolder holder, int position) {
         CardData currentItem = mScrollerItems.get(position);
 
-        Glide.with(holder.mItemView).load(currentItem.getImgUrl()).into(holder.mImageView);
+//        Glide.with(holder.mItemView).load(currentItem.getImgUrl())
+//        .apply(RequestOptions.
+//                bitmapTransform((new RoundedCornersTransformation(128, 0,
+//                        RoundedCornersTransformation.CornerType.ALL))))
+//        .into(holder.mImageView);
+        Picasso.get().load(currentItem.getImgUrl())
+                .transform(new RoundedTransformation(60, 0))
+                .into(holder.mImageView);
         holder.mMenu.setText(currentItem.getFilmId() + "");
     }
 
