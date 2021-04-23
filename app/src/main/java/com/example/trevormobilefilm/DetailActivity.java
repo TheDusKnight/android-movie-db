@@ -37,7 +37,7 @@ import java.util.Date;
 
 // TODO: watchlist icon and twitter
 public class DetailActivity extends AppCompatActivity {
-    private WatchViewModel detailViewModel;
+    private WatchViewModel detailViewModel; // TODO: Remove view model
     RequestQueue mQueue;
     TextView titleView;
     TextView overView;
