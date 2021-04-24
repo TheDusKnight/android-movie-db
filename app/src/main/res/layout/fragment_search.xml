@@ -1,13 +1,46 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent" android:layout_height="match_parent"
-    android:background="@android:color/holo_blue_light">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <androidx.appcompat.widget.Toolbar
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:theme="@style/Theme.TrevorMobileFilm.Toolbar"
+        >
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+            <SearchView
+                android:id="@+id/search_view"
+                android:layout_centerVertical="true"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:layout_marginBottom="15dp"
+                android:layout_marginStart="50dp"
+                android:layout_marginEnd="10dp"
+                android:queryBackground="@null"
+                android:searchHintIcon="@null"
+                android:searchIcon="@null"
+                android:queryHint="Search movies and TV"
+                android:layout_alignParentStart="true"/>
+
+            <ImageView
+                android:id="@+id/search_icon"
+                android:layout_margin="27dp"
+                android:layout_width="27dp"
+                android:layout_height="27dp"
+                app:srcCompat="@drawable/ic_baseline_search_24" />
+        </RelativeLayout>
+    </androidx.appcompat.widget.Toolbar>
 
     <TextView
-        android:layout_width="wrap_content"
+        android:id="@+id/test"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Search"
-        android:textSize="30sp"
-        android:layout_centerInParent="true" />
+        android:layout_alignParentBottom="true"
+        android:text="@string/no_value"/>
 
 </RelativeLayout>
