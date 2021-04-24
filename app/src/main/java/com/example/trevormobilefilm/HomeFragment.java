@@ -143,7 +143,6 @@ public class HomeFragment extends Fragment {
                 String filmType = mObject.getString("media_type");
                 String filmName = mObject.getString("name");
                 int filmId = mObject.getInt("id");
-                // TODO: set "add" field and listener from ViewModel to change SharePreferences
                 boolean add = false;
                 cardTopDataArrayList.add(new CardData(posterPath, add, filmType, filmName, filmId));
             }

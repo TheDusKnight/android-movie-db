@@ -40,7 +40,6 @@ public class SearchAdapter extends  RecyclerView.Adapter<SearchAdapter.SearchVie
     @Override
     public void onBindViewHolder(@NonNull SearchViewHolder holder, int position) {
         CardData currentItem = mScrollerItems.get(position);
-        // TODO: 修改字体
         holder.mTitle.setText(currentItem.getFilmName());
         String dateString = currentItem.getDate();
         String year;

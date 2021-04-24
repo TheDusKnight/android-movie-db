@@ -27,6 +27,7 @@ import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 
+// TODO: change font problem
 public class SearchFragment extends Fragment {
     RequestQueue mQueue;
 
