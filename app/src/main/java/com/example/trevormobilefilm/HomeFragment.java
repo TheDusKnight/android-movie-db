@@ -71,21 +71,6 @@ public class HomeFragment extends Fragment {
                 }
             }
         });
-
-//        Toolbar toolbar = (Toolbar) view.findViewById(R.id.myToolbar);
-//        toolbar.setOnMenuItemClickListener(item -> {
-//            switch (item.getItemId()) {
-//                // Navigate to different tabs
-//                case R.id.movie_tab:
-//                    textView.setText("movie tab clicked");
-//                    return true;
-//                case R.id.tv_tab:
-//                    textView.setText("tv tab clicked");
-//                    return true;
-//                default:
-//                    return false;
-//            }
-//        });
     }
 
     @Nullable

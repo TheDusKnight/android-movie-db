@@ -7,6 +7,7 @@ import androidx.fragment.app.FragmentResultListener;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModelProvider;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.widget.TextView;
@@ -37,6 +38,8 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         // Init view model in activity
         watchViewModel = new ViewModelProvider(this).get(WatchViewModel.class);
+        // TODO: Init SharedPreferences
+//        loadData();
 
         // Receive data from fragment
         getSupportFragmentManager().setFragmentResultListener("requestKey", this, new FragmentResultListener() {
@@ -93,6 +96,13 @@ public class MainActivity extends AppCompatActivity {
         BottomNavigationView bottomNav = findViewById(R.id.bottom_navigation);
         bottomNav.setOnNavigationItemSelectedListener(navListener);
     }
+
+//    private void loadData() {
+//        SharedPreferences sharedPreferences = getSharedPreferences("sharePrefs", MODE_PRIVATE);
+//        sharedPreferences.getString("orderList", null);
+//
+//
+//    }
 
     private void createFragment() { // Create and display HomeFragment onCreate
         // Pass data to HomeFragment with bundle

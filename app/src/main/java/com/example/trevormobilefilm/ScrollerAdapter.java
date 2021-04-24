@@ -1,6 +1,7 @@
 package com.example.trevormobilefilm;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.View;
@@ -13,10 +14,13 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.gson.Gson;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 public class ScrollerAdapter extends RecyclerView.Adapter<ScrollerAdapter.ScrollerViewHolder> {
     static final String FILM_ID = "filmId";
@@ -40,6 +44,12 @@ public class ScrollerAdapter extends RecyclerView.Adapter<ScrollerAdapter.Scroll
     @Override
     public void onBindViewHolder(@NonNull ScrollerViewHolder holder, int position) {
         CardData currentItem = mScrollerItems.get(position);
+        // Set default add boolean
+        AtomicBoolean add = new AtomicBoolean(false);
+        // Get cached films from storage
+        List<Integer> orderList = loadData();
+        // Set add true or false based on orderList
+        add.set(orderList.contains((currentItem.getFilmId())));
 
         Picasso.get().load(currentItem.getImgUrl())
                 .transform(new RoundedTransformation(60, 0))
@@ -52,7 +62,12 @@ public class ScrollerAdapter extends RecyclerView.Adapter<ScrollerAdapter.Scroll
             popupMenu.getMenuInflater().inflate(R.menu.popup_menu, popupMenu.getMenu());
             // Set menu title whenever click the menu button
             Menu menuOpts = popupMenu.getMenu();
-            menuOpts.findItem(R.id.menu_watchlist).setTitle("hahaha");
+            // Set title based on storage
+            if (add.get()) {
+                menuOpts.findItem(R.id.menu_watchlist).setTitle("Remove from Watchlist");
+            } else {
+                menuOpts.findItem(R.id.menu_watchlist).setTitle("Add to Watchlist");
+            }
             // Set popup menu click listener
             popupMenu.setOnMenuItemClickListener(menuItem -> {
                 // Toast message on menu item clicked
@@ -64,8 +79,18 @@ public class ScrollerAdapter extends RecyclerView.Adapter<ScrollerAdapter.Scroll
                     case R.id.menu_twitter:
                         return true;
                     case R.id.menu_watchlist:
-                        Toast.makeText(mContext, menuItem.getTitle(), Toast.LENGTH_SHORT).show();
-                        // TODO: store boolean to "add" in View Model
+                        if (add.get()) {
+                            Toast.makeText(mContext, currentItem.getFilmName() +
+                                    " was removed from Watchlist", Toast.LENGTH_SHORT).show();
+                            add.set(false);
+                            orderList.remove(Integer.valueOf(currentItem.getFilmId()));
+                        } else {
+                            Toast.makeText(mContext, currentItem.getFilmName() +
+                                    " was added to Watchlist", Toast.LENGTH_SHORT).show();
+                            add.set(true);
+                            orderList.add(15);
+                        }
+                        // TODO: orderList 写入 sharedPreference
                         return true;
                     default:
                         return false;
@@ -74,6 +99,13 @@ public class ScrollerAdapter extends RecyclerView.Adapter<ScrollerAdapter.Scroll
             // Showing the popup menu
             popupMenu.show();
         });
+    }
+
+    private List<Integer> loadData() {
+        Gson gson = new Gson();
+        SharedPreferences sharedPreferences = mContext.getSharedPreferences("sharePrefs", Context.MODE_PRIVATE);
+        String jsonOrderList = sharedPreferences.getString("orderList", "[]");
+        return new ArrayList<>(Arrays.asList(gson.fromJson(jsonOrderList, Integer[].class)));
     }
 
     @Override
