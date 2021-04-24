@@ -1,7 +1,9 @@
 package com.example.trevormobilefilm;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.View;
@@ -46,16 +48,16 @@ public class ScrollerAdapter extends RecyclerView.Adapter<ScrollerAdapter.Scroll
         CardData currentItem = mScrollerItems.get(position);
         // Set default add boolean
         AtomicBoolean add = new AtomicBoolean(false);
-        // Get cached films from storage
-        List<Integer> orderList = loadData();
-        // Set add true or false based on orderList
-        add.set(orderList.contains((currentItem.getFilmId())));
 
         Picasso.get().load(currentItem.getImgUrl())
                 .transform(new RoundedTransformation(60, 0))
                 .into(holder.mImageView);
 
         holder.mMenu.setOnClickListener( v -> {
+            // Get cached films from storage
+            List<Integer> orderList = loadData();
+            // Set add true or false based on orderList
+            add.set(orderList.contains((currentItem.getFilmId())));
             // Initializing the popup menu and giving the reference as current context
             PopupMenu popupMenu = new PopupMenu(mContext, holder.mMenu);
             // Inflating popup menu from popup_menu.xml file
@@ -88,9 +90,10 @@ public class ScrollerAdapter extends RecyclerView.Adapter<ScrollerAdapter.Scroll
                             Toast.makeText(mContext, currentItem.getFilmName() +
                                     " was added to Watchlist", Toast.LENGTH_SHORT).show();
                             add.set(true);
-                            orderList.add(15);
+                            orderList.add(currentItem.getFilmId());
                         }
                         // TODO: orderList 写入 sharedPreference
+                        saveDate(orderList, currentItem);
                         return true;
                     default:
                         return false;
@@ -99,6 +102,16 @@ public class ScrollerAdapter extends RecyclerView.Adapter<ScrollerAdapter.Scroll
             // Showing the popup menu
             popupMenu.show();
         });
+
+        // set OnClickListener for current image
+        Bundle args = new Bundle();
+        args.putString(FILM_TYPE, currentItem.getFilmType());
+        args.putInt(FILM_ID, currentItem.getFilmId());
+        holder.mImageView.setOnClickListener(v -> {
+            Intent intent = new Intent(mContext, DetailActivity.class);
+            intent.putExtras(args);
+            mContext.startActivity(intent);
+        });
     }
 
     private List<Integer> loadData() {
@@ -106,6 +119,20 @@ public class ScrollerAdapter extends RecyclerView.Adapter<ScrollerAdapter.Scroll
         SharedPreferences sharedPreferences = mContext.getSharedPreferences("sharePrefs", Context.MODE_PRIVATE);
         String jsonOrderList = sharedPreferences.getString("orderList", "[]");
         return new ArrayList<>(Arrays.asList(gson.fromJson(jsonOrderList, Integer[].class)));
+    }
+
+    private void saveDate(List<Integer> orderList, CardData currentItem) {
+        Gson gson = new Gson();
+        SharedPreferences sharedPreferences = mContext.getSharedPreferences("sharePrefs", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        String jsonList = gson.toJson(orderList);
+        editor.putString("orderList", jsonList);
+        // Add additional info to storage about the added film
+        List<String> filmList = new ArrayList<>();
+        filmList.add(currentItem.getFilmName());
+        filmList.add(currentItem.getFilmType());
+        editor.putString(String.valueOf(currentItem.getFilmId()), gson.toJson(filmList));
+        editor.apply();
     }
 
     @Override
@@ -119,7 +146,7 @@ public class ScrollerAdapter extends RecyclerView.Adapter<ScrollerAdapter.Scroll
         public TextView mMenu;
 
         public ScrollerViewHolder(@NonNull View itemView) {
-            // itemView = Inflated template xml
+            // itemView means Inflated template xml
             super(itemView);
             mImageView = itemView.findViewById(R.id.detail_card);
             mMenu = itemView.findViewById(R.id.detail_menu);

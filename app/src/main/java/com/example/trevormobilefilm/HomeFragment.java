@@ -61,14 +61,11 @@ public class HomeFragment extends Fragment {
                 getParentFragmentManager().setFragmentResult("requestKey", result);
             }
         });
-        tvClick.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (filmType.equals("movie")) {
-                    Bundle result = new Bundle();
-                    result.putString("bundleKey", filmType);
-                    getParentFragmentManager().setFragmentResult("requestKey", result);
-                }
+        tvClick.setOnClickListener(v -> {
+            if (filmType.equals("movie")) {
+                Bundle result = new Bundle();
+                result.putString("bundleKey", filmType);
+                getParentFragmentManager().setFragmentResult("requestKey", result);
             }
         });
     }
