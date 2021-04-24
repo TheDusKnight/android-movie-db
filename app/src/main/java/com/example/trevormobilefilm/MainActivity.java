@@ -46,10 +46,8 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onFragmentResult(@NonNull String requestKey, @NonNull Bundle result) {
                 String fileType = result.getString("bundleKey");
-                final TextView textView = findViewById(R.id.textView);
                 FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
                 if (fileType.equals("movie")) {
-                    textView.setText("switch from movie to tv");
                     ft.hide(movieFragment);
                     if (tvFragment.isAdded()) {
                         ft.show(tvFragment);
@@ -57,7 +55,6 @@ public class MainActivity extends AppCompatActivity {
                         ft.add(R.id.fragment_container, tvFragment, null);
                     }
                 } else {
-                    textView.setText("switch from tv to movie");
                     ft.hide(tvFragment);
                     if (movieFragment.isAdded()) {
                         ft.show(movieFragment);
@@ -83,7 +80,6 @@ public class MainActivity extends AppCompatActivity {
                             watchViewModel.setPopMovie(popMovie);
                             jsonParse(URL + "/pop/tv", popTv -> {
                                 watchViewModel.setPopTv(popTv);
-                                // TODO: add more requests
                                 createFragment();
                             });
                         });
@@ -114,7 +110,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void jsonParse(String url, final VolleyCallback callback) {
-        final TextView textView = findViewById(R.id.textView);
         // Request a string response from the provided URL.
         JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, url, null,
                 response -> {

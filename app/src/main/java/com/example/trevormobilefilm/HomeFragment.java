@@ -74,7 +74,6 @@ public class HomeFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_home, container, false);
-        textView = view.findViewById(R.id.home_text);
         TextView movieClick = view.findViewById(R.id.movie_click);
         TextView tvClick = view.findViewById(R.id.tv_click);
 
@@ -97,11 +96,6 @@ public class HomeFragment extends Fragment {
 //                textView.setText(charSequence);
 //            }
 //        });
-        if (watchViewModel.getText().getValue() != null) {
-            textView.setText(watchViewModel.getText().getValue());
-        } else {
-            textView.setText("view model not ready");
-        }
 
         if (filmType.equals("movie")) {
             tvClick.setTextColor(ContextCompat.getColor(getContext(), R.color.colorPrimary));
@@ -114,16 +108,21 @@ public class HomeFragment extends Fragment {
         } else {
             movieClick.setTextColor(ContextCompat.getColor(getContext(), R.color.colorPrimary));
             JSONArray trendTv = watchViewModel.getTrendTv().getValue();
-            createSliderView(view, trendTv);
-        }
+            JSONArray topTv = watchViewModel.getTopTv().getValue();
+            JSONArray popTv = watchViewModel.getPopTv().getValue();
 
+            createSliderView(view, trendTv);
+            createScrollerView(view, topTv, popTv);
+        }
         return view;
     }
 
     private void createScrollerView(View view, JSONArray topMovies, JSONArray popMovies) {
 
-        ArrayList<CardData> cardDataArrayList = new ArrayList<>();
-        RecyclerView scrollView = view.findViewById(R.id.top_scroller);
+        ArrayList<CardData> cardTopDataArrayList = new ArrayList<>();
+        ArrayList<CardData> cardPopDataArrayList = new ArrayList<>();
+        RecyclerView topScrollView = view.findViewById(R.id.top_scroller);
+        RecyclerView popScrollView = view.findViewById(R.id.pop_scroller);
 
         try {
             for (int i = 0; i < topMovies.length(); i++) {
@@ -134,18 +133,33 @@ public class HomeFragment extends Fragment {
                 int filmId = mObject.getInt("id");
                 // TODO: set "add" field and listener from ViewModel to change SharePreferences
                 boolean add = false;
-                cardDataArrayList.add(new CardData(posterPath, add, filmType, filmName, filmId));
+                cardTopDataArrayList.add(new CardData(posterPath, add, filmType, filmName, filmId));
+            }
+
+            for (int i = 0; i < popMovies.length(); i++) {
+                JSONObject mObject = popMovies.getJSONObject(i);
+                String posterPath = mObject.getString("poster_path");
+                String filmType = mObject.getString("media_type");
+                String filmName = mObject.getString("name");
+                int filmId = mObject.getInt("id");
+                boolean add = false;
+                cardPopDataArrayList.add(new CardData(posterPath, add, filmType, filmName, filmId));
             }
         } catch (JSONException e) {
             e.printStackTrace();
         }
 
-        ScrollerAdapter adapter = new ScrollerAdapter(this.getContext(), cardDataArrayList);
-        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this.getContext(),
+        RecyclerView.LayoutManager topLayoutManager = new LinearLayoutManager(this.getContext(),
                 LinearLayoutManager.HORIZONTAL, false);
-        scrollView.setLayoutManager(layoutManager);
-//        scrollView.setItemAnimator(new DefaultItemAnimator());
-        scrollView.setAdapter(adapter);
+        ScrollerAdapter topAdapter = new ScrollerAdapter(this.getContext(), cardTopDataArrayList);
+        topScrollView.setLayoutManager(topLayoutManager);
+        topScrollView.setAdapter(topAdapter);
+
+        RecyclerView.LayoutManager popLayoutManager = new LinearLayoutManager(this.getContext(),
+                LinearLayoutManager.HORIZONTAL, false);
+        ScrollerAdapter popAdapter = new ScrollerAdapter(this.getContext(), cardPopDataArrayList);
+        popScrollView.setLayoutManager(popLayoutManager);
+        popScrollView.setAdapter(popAdapter);
     }
 
     private void createSliderView(View view, JSONArray currentMovies) {

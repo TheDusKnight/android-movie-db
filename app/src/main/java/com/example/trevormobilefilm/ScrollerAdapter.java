@@ -81,14 +81,15 @@ public class ScrollerAdapter extends RecyclerView.Adapter<ScrollerAdapter.Scroll
                 Intent i;
                 switch (menuItem.getItemId()) {
                     case R.id.menu_tmdb:
-                        url = "https://www.themoviedb.org/movie/" + currentItem.getFilmId();
+                        url = "https://www.themoviedb.org/"
+                                + currentItem.getFilmType() + "/" + currentItem.getFilmId();
                         i = new Intent(Intent.ACTION_VIEW);
                         i.setData(Uri.parse(url));
                         mContext.startActivity(i);
                         return true;
                     case R.id.menu_facebook:
-                        // TODO: facebook
-                        url = "https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fwww.youtube.com%2Fwatch%3Fv%3D"
+                        url = "https://www.facebook.com/sharer/sharer.php?u="
+                                + "https://www.themoviedb.org/" + currentItem.getFilmType() + "/"
                                 + currentItem.getFilmId() + "&amp;src=sdkpreparse";
                         i = new Intent(Intent.ACTION_VIEW);
                         i.setData(Uri.parse(url));
@@ -96,27 +97,16 @@ public class ScrollerAdapter extends RecyclerView.Adapter<ScrollerAdapter.Scroll
                         return true;
                     case R.id.menu_twitter:
                         url = null;
-                        if (currentItem.getFilmType().equals("movie")) {
                             try {
                                 url = "https://twitter.com/intent/tweet?text="
                                         + "Check this out!" + "&url=" +
-                                        URLEncoder.encode("https://www.themoviedb.org/movie/"
+                                        URLEncoder.encode("https://www.themoviedb.org/"
+                                                + currentItem.getFilmType() + "/"
                                                         + currentItem.getFilmId(),
                                                 StandardCharsets.UTF_8.toString());
                             } catch (UnsupportedEncodingException e) {
                                 e.printStackTrace();
                             }
-                        } else {
-                            try {
-                                url = "https://twitter.com/intent/tweet?text="
-                                        + "Check this out!" + "&url=" +
-                                        URLEncoder.encode("https://www.themoviedb.org/tv/"
-                                                        + currentItem.getFilmId(),
-                                                StandardCharsets.UTF_8.toString());
-                            } catch (UnsupportedEncodingException e) {
-                                e.printStackTrace();
-                            }
-                        }
                         i = new Intent(Intent.ACTION_VIEW);
                         i.setData(Uri.parse(url));
                         mContext.startActivity(i);
