@@ -5,6 +5,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -37,7 +39,6 @@ import java.util.Date;
 
 // TODO: watchlist icon and twitter
 public class DetailActivity extends AppCompatActivity {
-    private WatchViewModel detailViewModel; // TODO: Remove view model
     RequestQueue mQueue;
     TextView titleView;
     TextView overView;
@@ -49,8 +50,6 @@ public class DetailActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail);
-
-        detailViewModel = new ViewModelProvider(this).get(WatchViewModel.class);
 
         // Get Intent
         Intent intent = getIntent();
@@ -108,6 +107,32 @@ public class DetailActivity extends AppCompatActivity {
                 // Create YouTube player or set background image
                 createYouTube(videoId, finalBackDropImage);
             });
+        });
+
+        jsonParse(MainActivity.URL + "/recommend/" + filmType + "/" + filmId, recommendFilms -> {
+            ArrayList<CardData> cardTrendDataArrayList = new ArrayList<>();
+            RecyclerView trendScrollView = findViewById(R.id.recommend_scroller);
+
+            try {
+                for (int i = 0; i < recommendFilms.length(); i++) {
+                    JSONObject mObject = recommendFilms.getJSONObject(i);
+                    String innerPosterPath = mObject.getString("poster_path");
+                    String innerFilmType = mObject.getString("media_type");
+                    String innerFilmName = mObject.getString("name");
+                    int innerFilmId = mObject.getInt("id");
+                    boolean innerAdd = false;
+                    cardTrendDataArrayList.add(new CardData(innerPosterPath, innerAdd,
+                            innerFilmType, innerFilmName, innerFilmId));
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+            RecyclerView.LayoutManager recommendLayoutManager = new LinearLayoutManager(this,
+                    LinearLayoutManager.HORIZONTAL, false);
+            ScrollerAdapter topAdapter = new ScrollerAdapter(this, cardTrendDataArrayList);
+            trendScrollView.setLayoutManager(recommendLayoutManager);
+            trendScrollView.setAdapter(topAdapter);
         });
 
         fillCast(filmType, filmId);

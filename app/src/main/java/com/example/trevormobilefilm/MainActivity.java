@@ -68,7 +68,6 @@ public class MainActivity extends AppCompatActivity {
 
         mQueue = VolleySingleton.getInstance(this).getRequestQueue();
         jsonParse(URL + "/current/movie", currentMovie -> {
-            watchViewModel.setText("view model ok");
             watchViewModel.setCurrentMovie(currentMovie);
             jsonParse(URL + "/trend/tv", trendTv -> {
                 watchViewModel.setTrendTv(trendTv);
