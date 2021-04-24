@@ -3,6 +3,7 @@ package com.example.trevormobilefilm;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -19,6 +20,9 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.google.gson.Gson;
 import com.squareup.picasso.Picasso;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -73,12 +77,49 @@ public class ScrollerAdapter extends RecyclerView.Adapter<ScrollerAdapter.Scroll
             // Set popup menu click listener
             popupMenu.setOnMenuItemClickListener(menuItem -> {
                 // Toast message on menu item clicked
+                String url;
+                Intent i;
                 switch (menuItem.getItemId()) {
                     case R.id.menu_tmdb:
+                        url = "https://www.themoviedb.org/movie/" + currentItem.getFilmId();
+                        i = new Intent(Intent.ACTION_VIEW);
+                        i.setData(Uri.parse(url));
+                        mContext.startActivity(i);
                         return true;
                     case R.id.menu_facebook:
+                        // TODO: facebook
+                        url = "https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fwww.youtube.com%2Fwatch%3Fv%3D"
+                                + currentItem.getFilmId() + "&amp;src=sdkpreparse";
+                        i = new Intent(Intent.ACTION_VIEW);
+                        i.setData(Uri.parse(url));
+                        mContext.startActivity(i);
                         return true;
                     case R.id.menu_twitter:
+                        url = null;
+                        if (currentItem.getFilmType().equals("movie")) {
+                            try {
+                                url = "https://twitter.com/intent/tweet?text="
+                                        + "Check this out!" + "&url=" +
+                                        URLEncoder.encode("https://www.themoviedb.org/movie/"
+                                                        + currentItem.getFilmId(),
+                                                StandardCharsets.UTF_8.toString());
+                            } catch (UnsupportedEncodingException e) {
+                                e.printStackTrace();
+                            }
+                        } else {
+                            try {
+                                url = "https://twitter.com/intent/tweet?text="
+                                        + "Check this out!" + "&url=" +
+                                        URLEncoder.encode("https://www.themoviedb.org/tv/"
+                                                        + currentItem.getFilmId(),
+                                                StandardCharsets.UTF_8.toString());
+                            } catch (UnsupportedEncodingException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                        i = new Intent(Intent.ACTION_VIEW);
+                        i.setData(Uri.parse(url));
+                        mContext.startActivity(i);
                         return true;
                     case R.id.menu_watchlist:
                         if (add.get()) {
@@ -92,7 +133,7 @@ public class ScrollerAdapter extends RecyclerView.Adapter<ScrollerAdapter.Scroll
                             add.set(true);
                             orderList.add(currentItem.getFilmId());
                         }
-                        // TODO: orderList 写入 sharedPreference
+                        // orderList 写入 sharedPreference
                         saveDate(orderList, currentItem);
                         return true;
                     default:
