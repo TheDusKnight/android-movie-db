@@ -20,8 +20,6 @@ public class SearchFragment extends Fragment {
         TextView test = view.findViewById(R.id.test);
 
         searchView.setIconified(false);
-//        searchView.setElevation(0);
-//        searchView.setOutlineProvider(null);
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
