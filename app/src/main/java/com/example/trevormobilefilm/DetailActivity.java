@@ -3,23 +3,30 @@ package com.example.trevormobilefilm;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
+import androidx.core.content.res.ResourcesCompat;
 import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.bumptech.glide.Glide;
+import com.google.gson.Gson;
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.YouTubePlayer;
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.listeners.AbstractYouTubePlayerListener;
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.views.YouTubePlayerView;
@@ -28,6 +35,9 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -56,6 +66,9 @@ public class DetailActivity extends AppCompatActivity {
         Bundle bundle = intent.getExtras();
         String filmType = bundle.getString(SliderAdapter.FILM_TYPE);
         int filmId = bundle.getInt(SliderAdapter.FILM_ID);
+        String filmName = bundle.getString(SliderAdapter.FILM_NAME);
+
+        setListener(filmType, filmId, filmName);
 
         // Send request
         mQueue = VolleySingleton.getInstance(this).getRequestQueue();
@@ -130,13 +143,80 @@ public class DetailActivity extends AppCompatActivity {
 
             RecyclerView.LayoutManager recommendLayoutManager = new LinearLayoutManager(this,
                     LinearLayoutManager.HORIZONTAL, false);
-            ScrollerAdapter topAdapter = new ScrollerAdapter(this, cardTrendDataArrayList);
+            ScrollerAdapter topAdapter = new ScrollerAdapter(this,
+                    cardTrendDataArrayList, "basic");
             trendScrollView.setLayoutManager(recommendLayoutManager);
             trendScrollView.setAdapter(topAdapter);
         });
 
         fillCast(filmType, filmId);
         fillReview(filmType, filmId);
+    }
+
+    private void setListener(String filmType, int filmId, String filmName) {
+        Gson gson = new Gson();
+        SharedPreferences sharedPreferences = this.getSharedPreferences("sharePrefs", Context.MODE_PRIVATE);
+        String jsonOrderList = sharedPreferences.getString("orderList", "[]");
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        List<Integer> watchList = new ArrayList<>(Arrays.asList(gson.fromJson(jsonOrderList, Integer[].class)));
+        List<String> filmList = new ArrayList<>();
+        filmList.add(filmName);
+        filmList.add(filmType);
+
+        ImageView addWatch = findViewById(R.id.watch_icon);
+        ImageView facebook = findViewById(R.id.facebook_icon);
+        ImageView twitter = findViewById(R.id.twitter_icon);
+
+        facebook.setOnClickListener(v -> {
+            String url = "https://www.facebook.com/sharer/sharer.php?u="
+                    + "https://www.themoviedb.org/" + filmType + "/"
+                    + filmId + "&amp;src=sdkpreparse";
+            Intent i = new Intent(Intent.ACTION_VIEW);
+            i.setData(Uri.parse(url));
+            startActivity(i);
+        });
+
+        twitter.setOnClickListener(v -> {
+            String url = null;
+            try {
+                url = "https://twitter.com/intent/tweet?text="
+                        + "Check this out!" + "&url=" +
+                        URLEncoder.encode("https://www.themoviedb.org/"
+                                        + filmType + "/"
+                                        + filmId,
+                                StandardCharsets.UTF_8.toString());
+            } catch (UnsupportedEncodingException e) {
+                e.printStackTrace();
+            }
+            Intent i = new Intent(Intent.ACTION_VIEW);
+            i.setData(Uri.parse(url));
+            startActivity(i);
+        });
+
+        if (watchList.contains(filmId)) {
+            addWatch.setImageResource(R.drawable.ic_baseline_remove_circle_outline_24);
+        } else {
+            addWatch.setImageResource(R.drawable.ic_baseline_add_circle_outline_24);
+        }
+
+        addWatch.setOnClickListener(v -> {
+            if (watchList.contains(filmId)) {
+                Toast.makeText(this, filmName +
+                        " was removed from Watchlist", Toast.LENGTH_SHORT).show();
+                addWatch.setImageResource(R.drawable.ic_baseline_add_circle_outline_24);
+                watchList.remove(Integer.valueOf(filmId));
+                // not need to remove anything from film cache
+            } else {
+                Toast.makeText(this, filmName +
+                        " was added to Watchlist", Toast.LENGTH_SHORT).show();
+                addWatch.setImageResource(R.drawable.ic_baseline_remove_circle_outline_24);
+                watchList.add(filmId);
+                editor.putString(String.valueOf(filmId), gson.toJson(filmList));
+            }
+            String jsonList = gson.toJson(watchList);
+            editor.putString("orderList", jsonList);
+            editor.apply();
+        });
     }
 
     private void fillReview(String filmType, int filmId) {

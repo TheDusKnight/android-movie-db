@@ -1,5 +1,7 @@
 package com.example.trevormobilefilm;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -53,6 +55,7 @@ public class HomeFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         TextView movieClick = view.findViewById(R.id.movie_click);
         TextView tvClick = view.findViewById(R.id.tv_click);
+        TextView footer = view.findViewById(R.id.footer);
 
         movieClick.setOnClickListener(v -> {
             if (filmType.equals("tv")) {
@@ -67,6 +70,12 @@ public class HomeFragment extends Fragment {
                 result.putString("bundleKey", filmType);
                 getParentFragmentManager().setFragmentResult("requestKey", result);
             }
+        });
+        footer.setOnClickListener(v -> {
+            String url = "https://www.themoviedb.org";
+            Intent i = new Intent(Intent.ACTION_VIEW);
+            i.setData(Uri.parse(url));
+            getContext().startActivity(i);
         });
     }
 
@@ -151,13 +160,13 @@ public class HomeFragment extends Fragment {
 
         RecyclerView.LayoutManager topLayoutManager = new LinearLayoutManager(this.getContext(),
                 LinearLayoutManager.HORIZONTAL, false);
-        ScrollerAdapter topAdapter = new ScrollerAdapter(this.getContext(), cardTopDataArrayList);
+        ScrollerAdapter topAdapter = new ScrollerAdapter(this.getContext(), cardTopDataArrayList, "detail");
         topScrollView.setLayoutManager(topLayoutManager);
         topScrollView.setAdapter(topAdapter);
 
         RecyclerView.LayoutManager popLayoutManager = new LinearLayoutManager(this.getContext(),
                 LinearLayoutManager.HORIZONTAL, false);
-        ScrollerAdapter popAdapter = new ScrollerAdapter(this.getContext(), cardPopDataArrayList);
+        ScrollerAdapter popAdapter = new ScrollerAdapter(this.getContext(), cardPopDataArrayList, "detail");
         popScrollView.setLayoutManager(popLayoutManager);
         popScrollView.setAdapter(popAdapter);
     }
@@ -176,7 +185,8 @@ public class HomeFragment extends Fragment {
                 String posterPath = mObject.getString("poster_path");
                 String filmType = mObject.getString("media_type");
                 int filmId = mObject.getInt("id");
-                sliderDataArrayList.add(new SliderData(posterPath, filmType, filmId));
+                String filmName = mObject.getString("name");
+                sliderDataArrayList.add(new SliderData(posterPath, filmType, filmId, filmName));
             }
         } catch (JSONException e) {
             e.printStackTrace();

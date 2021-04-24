@@ -6,13 +6,16 @@ public class SliderData {
     // store the url of image
     private String imgUrl;
     private String filmType;
+    private String filmName;
+
     private int filmId;
 
     // Constructor method.
-    public SliderData(String imgUrl, String filmType, int filmId) {
+    public SliderData(String imgUrl, String filmType, int filmId, String filmName) {
         this.imgUrl = imgUrl;
         this.filmType = filmType;
         this.filmId = filmId;
+        this.filmName = filmName;
     }
 
     public String getFilmType() {
@@ -37,6 +40,14 @@ public class SliderData {
 
     public void setImgUrl(String imgUrl) {
         this.imgUrl = imgUrl;
+    }
+
+    public String getFilmName() {
+        return filmName;
+    }
+
+    public void setFilmName(String filmName) {
+        this.filmName = filmName;
     }
 }
 

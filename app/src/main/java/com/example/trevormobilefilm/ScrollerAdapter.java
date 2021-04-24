@@ -3,6 +3,8 @@ package com.example.trevormobilefilm;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -30,14 +32,17 @@ import java.util.concurrent.atomic.AtomicBoolean;
 
 public class ScrollerAdapter extends RecyclerView.Adapter<ScrollerAdapter.ScrollerViewHolder> {
     static final String FILM_ID = "filmId";
-    static final String FILM_TYPE = "fileType";
+    static final String FILM_TYPE = "filmType";
+    static final String FILM_NAME = "filmName";
     // list for storing urls of images.
     private final List<CardData> mScrollerItems;
     public Context mContext;
+    public String cardType;
 
-    public ScrollerAdapter(Context context, ArrayList<CardData> cardList) {
+    public ScrollerAdapter(Context context, ArrayList<CardData> cardList, String cardType) {
         mContext = context;
         mScrollerItems = cardList;
+        this.cardType = cardType;
     }
 
     @NonNull
@@ -138,6 +143,7 @@ public class ScrollerAdapter extends RecyclerView.Adapter<ScrollerAdapter.Scroll
         Bundle args = new Bundle();
         args.putString(FILM_TYPE, currentItem.getFilmType());
         args.putInt(FILM_ID, currentItem.getFilmId());
+        args.putString(FILM_NAME, currentItem.getFilmName());
         holder.mImageView.setOnClickListener(v -> {
             Intent intent = new Intent(mContext, DetailActivity.class);
             intent.putExtras(args);
@@ -171,7 +177,7 @@ public class ScrollerAdapter extends RecyclerView.Adapter<ScrollerAdapter.Scroll
         return mScrollerItems.size();
     }
 
-    public static class ScrollerViewHolder extends RecyclerView.ViewHolder {
+    public class ScrollerViewHolder extends RecyclerView.ViewHolder {
         public View mItemView;
         public ImageView mImageView;
         public TextView mMenu;
@@ -182,6 +188,12 @@ public class ScrollerAdapter extends RecyclerView.Adapter<ScrollerAdapter.Scroll
             mImageView = itemView.findViewById(R.id.detail_card);
             mMenu = itemView.findViewById(R.id.detail_menu);
             this.mItemView = itemView;
+
+            if (cardType.equals("basic")) {
+                mMenu.setVisibility(View.GONE);
+                ColorDrawable cd = new ColorDrawable(Color.parseColor("#00ffffff"));
+                mImageView.setForeground(cd);
+            }
         }
     }
 }

@@ -17,7 +17,8 @@ import java.util.List;
 
 public class SliderAdapter extends SliderViewAdapter<SliderAdapter.SliderAdapterViewHolder> {
     static final String FILM_ID = "filmId";
-    static final String FILM_TYPE = "fileType";
+    static final String FILM_TYPE = "filmType";
+    static final String FILM_NAME = "filmName";
     // list for storing urls of images.
     private final List<SliderData> mSliderItems;
     public Context context;
@@ -59,6 +60,7 @@ public class SliderAdapter extends SliderViewAdapter<SliderAdapter.SliderAdapter
         Bundle args = new Bundle();
         args.putString(FILM_TYPE, sliderItem.getFilmType());
         args.putInt(FILM_ID, sliderItem.getFilmId());
+        args.putString(FILM_NAME, sliderItem.getFilmName());
         viewHolder.imageViewFront.setOnClickListener(v -> {
             Intent intent = new Intent(context, DetailActivity.class);
             intent.putExtras(args);

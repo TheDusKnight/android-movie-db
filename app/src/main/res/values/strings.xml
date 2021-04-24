@@ -11,4 +11,5 @@
     <string name="reviews">Reviews</string>
     <string name="card">card</string>
     <string name="recommend">Recommended Picks</string>
+    <string name="footer">Powered by TMDB\nDeveloped by Xirui Zhong</string>
 </resources>
