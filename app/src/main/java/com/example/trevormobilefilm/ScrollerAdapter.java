@@ -187,7 +187,7 @@ public class ScrollerAdapter extends RecyclerView.Adapter<ScrollerAdapter.Scroll
             super(itemView);
             mImageView = itemView.findViewById(R.id.detail_card);
             mMenu = itemView.findViewById(R.id.detail_menu);
-            this.mItemView = itemView;
+            mItemView = itemView;
 
             if (cardType.equals("basic")) {
                 mMenu.setVisibility(View.GONE);

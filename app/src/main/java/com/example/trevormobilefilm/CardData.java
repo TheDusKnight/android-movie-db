@@ -6,6 +6,17 @@ public class CardData {
     private String filmType;
     private String filmName;
     private int filmId;
+    private String date;
+    private int rate;
+
+    public CardData(String imgUrl, String filmType, String filmName, int filmId, String date, int rate) {
+        this.imgUrl = imgUrl;
+        this.filmType = filmType;
+        this.filmName = filmName;
+        this.filmId = filmId;
+        this.date = date;
+        this.rate = rate;
+    }
 
     public CardData(String imgUrl, boolean add, String filmType, String filmName, int filmId) {
         this.imgUrl = imgUrl;
@@ -13,6 +24,23 @@ public class CardData {
         this.filmType = filmType;
         this.filmName = filmName;
         this.filmId = filmId;
+    }
+
+
+    public String getDate() {
+        return date;
+    }
+
+    public void setDate(String date) {
+        this.date = date;
+    }
+
+    public int getRate() {
+        return rate;
+    }
+
+    public void setRate(int rate) {
+        this.rate = rate;
     }
 
     public String getFilmName() {
