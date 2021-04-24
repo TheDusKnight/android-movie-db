@@ -10,6 +10,8 @@ import androidx.lifecycle.ViewModelProvider;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.android.volley.Request;
@@ -38,8 +40,6 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         // Init view model in activity
         watchViewModel = new ViewModelProvider(this).get(WatchViewModel.class);
-        // TODO: Init SharedPreferences
-//        loadData();
 
         // Receive data from fragment
         getSupportFragmentManager().setFragmentResultListener("requestKey", this, new FragmentResultListener() {
@@ -103,8 +103,10 @@ public class MainActivity extends AppCompatActivity {
         // Pass data to HomeFragment with bundle
         movieFragment = HomeFragment.newInstance("movie", 1);
         tvFragment = HomeFragment.newInstance("tv", 2);
+
+        RelativeLayout loading = findViewById(R.id.main_loading);
+        loading.setVisibility(View.INVISIBLE);
         // Create and display HomeFragment onCreate
-        //        getSupportFragmentManager().beginTransaction().add(R.id.fragment_container, movieFragment, null).commit();
         getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, movieFragment).commit();
     }
 

@@ -7,7 +7,10 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
@@ -172,6 +175,9 @@ public class HomeFragment extends Fragment {
     }
 
     private void createSliderView(View view, JSONArray currentMovies) {
+//        FrameLayout homeLayout = view.findViewById(R.id.home_layout);
+//        homeLayout.setVisibility(View.INVISIBLE);
+
 
         // we are creating array list for storing our image urls.
         ArrayList<SliderData> sliderDataArrayList = new ArrayList<>();

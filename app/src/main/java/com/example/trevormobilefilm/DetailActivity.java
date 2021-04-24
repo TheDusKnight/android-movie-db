@@ -17,6 +17,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
@@ -151,6 +152,13 @@ public class DetailActivity extends AppCompatActivity {
 
         fillCast(filmType, filmId);
         fillReview(filmType, filmId);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        RelativeLayout detailLoading = findViewById(R.id.detail_loading);
+        detailLoading.setVisibility(View.INVISIBLE);
     }
 
     private void setListener(String filmType, int filmId, String filmName) {
