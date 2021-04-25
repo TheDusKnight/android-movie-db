@@ -1,6 +1,8 @@
 package com.example.trevormobilefilm;
 
 import android.content.Context;
+import android.content.Intent;
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -40,6 +42,22 @@ public class WatchAdapter extends RecyclerView.Adapter<WatchAdapter.WatchViewHol
 
         holder.mType.setText(capitalizeString(currentItem.getFilmType()));
         Picasso.get().load(currentItem.getImgUrl()).into(holder.mCardView);
+
+        // Set OnClickListener for current icon
+        holder.mType.setOnClickListener(v -> {
+
+        });
+
+        // Set OnClickListener for current image
+        Bundle args = new Bundle();
+        args.putString(FILM_TYPE, currentItem.getFilmType());
+        args.putInt(FILM_ID, currentItem.getFilmId());
+        args.putString(FILM_NAME, currentItem.getFilmName());
+        holder.mCardView.setOnClickListener(v -> {
+            Intent intent = new Intent(mContext, DetailActivity.class);
+            intent.putExtras(args);
+            mContext.startActivity(intent);
+        });
     }
 
     @Override

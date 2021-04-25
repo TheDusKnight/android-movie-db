@@ -236,7 +236,7 @@ public class DetailActivity extends AppCompatActivity {
                 TextView reviewTitleView = findViewById(R.id.reviews_title);
                 reviewTitleView.setVisibility(View.VISIBLE);
                 for (int i = 0; i < review.length(); i++) {
-                    String rate = "N/A";
+                    String rate = "0/5";
                     String name = "N/A";
                     String date = "N/A";
                     String reviewText = "N/A";
@@ -247,8 +247,7 @@ public class DetailActivity extends AppCompatActivity {
                     TextView contentView = findViewById(contentId[i]);
 
                     try {
-                        rate = review.getJSONObject(i).getString("rating") != null
-                                ? review.getJSONObject(i).getString("rating") + "/5" : "0/5";
+                        rate = review.getJSONObject(i).getInt("rating") / 2 + "/5";
                         name = review.getJSONObject(i).getString("author") != null
                                 ? review.getJSONObject(i).getString("author") : "anonymous user";
                         String dateRaw = review.getJSONObject(i).getString("created_at");
