@@ -29,13 +29,22 @@ public class WatchAdapter extends RecyclerView.Adapter<WatchAdapter.WatchViewHol
     public Gson gson;
     public List<Integer> watchList;
     SharedPreferences.Editor editor;
+    TextView watchEmpty;
 
-    public WatchAdapter(Context context, ArrayList<CardData> cardList, List<Integer> watchList, Gson gson, SharedPreferences.Editor editor) {
+    public WatchAdapter(Context context, ArrayList<CardData> cardList, List<Integer> watchList,
+                        Gson gson, SharedPreferences.Editor editor, TextView watchEmpty) {
         mContext = context;
         mScrollerItems = cardList;
         this.watchList = watchList;
         this.gson = gson;
         this.editor = editor;
+        this.watchEmpty = watchEmpty;
+
+//        if (mScrollerItems.size() <= 0) {
+//            watchEmpty.setVisibility(View.VISIBLE);
+//        } else {
+//            watchEmpty.setVisibility(View.INVISIBLE);
+//        }
     }
 
     @NonNull
@@ -47,6 +56,12 @@ public class WatchAdapter extends RecyclerView.Adapter<WatchAdapter.WatchViewHol
 
     @Override
     public void onBindViewHolder(@NonNull WatchViewHolder holder, int position) {
+//        if (mScrollerItems.size() <= 0) {
+//            watchEmpty.setVisibility(View.VISIBLE);
+//        } else {
+//            watchEmpty.setVisibility(View.INVISIBLE);
+//        }
+
         CardData currentItem = mScrollerItems.get(position);
 
         holder.mType.setText(capitalizeString(currentItem.getFilmType()));
@@ -99,7 +114,8 @@ public class WatchAdapter extends RecyclerView.Adapter<WatchAdapter.WatchViewHol
         String retStr = str;
         try { // We can face index out of bound exception if the string is null
             retStr = str.substring(0, 1).toUpperCase() + str.substring(1);
-        } catch (Exception e){}
+        } catch (Exception e) {
+        }
         return retStr;
     }
 }

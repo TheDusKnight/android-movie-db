@@ -22,7 +22,8 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
-public class WatchlistFragment extends Fragment {
+// TODO: set watchEmpty textView, and go back from prior activity check
+public class WatchlistFragment extends Fragment{
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -35,7 +36,7 @@ public class WatchlistFragment extends Fragment {
         // Listen for sharedPreference changes?
 
 
-        createGridView(gson, sharedPreferences, editor, view);
+        createGridView(gson, sharedPreferences, editor, view, watchEmpty);
         return view;
     }
 
@@ -47,7 +48,8 @@ public class WatchlistFragment extends Fragment {
 //
 //    }
 
-    private void createGridView(Gson gson, SharedPreferences sharedPreferences, SharedPreferences.Editor editor, View view) {
+    private void createGridView(Gson gson, SharedPreferences sharedPreferences,
+                                SharedPreferences.Editor editor, View view, TextView watchEmpty) {
         ArrayList<CardData> cardWatchList = new ArrayList<>();
         RecyclerView watchView  = view.findViewById(R.id.watch_list);
 
@@ -63,7 +65,7 @@ public class WatchlistFragment extends Fragment {
         }
 
         RecyclerView.LayoutManager watchLayoutManager = new GridLayoutManager(view.getContext(), 3);
-        WatchAdapter watchAdapter = new WatchAdapter(view.getContext(), cardWatchList, watchList, gson, editor);
+        WatchAdapter watchAdapter = new WatchAdapter(view.getContext(), cardWatchList, watchList, gson, editor, watchEmpty);
         watchView.setLayoutManager(watchLayoutManager);
         watchView.setAdapter(watchAdapter);
 
