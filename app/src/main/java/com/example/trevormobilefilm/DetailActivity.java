@@ -3,23 +3,18 @@ package com.example.trevormobilefilm;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
-import androidx.core.content.res.ResourcesCompat;
-import androidx.lifecycle.ViewModel;
-import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TableLayout;
-import android.widget.TableRow;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -45,8 +40,8 @@ import java.util.List;
 import java.text.SimpleDateFormat;
 import java.util.Locale;
 import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.concurrent.atomic.AtomicReference;
 
 public class DetailActivity extends AppCompatActivity {
     RequestQueue mQueue;
@@ -68,7 +63,7 @@ public class DetailActivity extends AppCompatActivity {
         int filmId = bundle.getInt(SliderAdapter.FILM_ID);
         String filmName = bundle.getString(SliderAdapter.FILM_NAME);
 
-        setListener(filmType, filmId, filmName);
+//        setListener(filmType, filmId, filmName);
 
         // Send request
         mQueue = VolleySingleton.getInstance(this).getRequestQueue();
@@ -78,7 +73,11 @@ public class DetailActivity extends AppCompatActivity {
             String genres = "N/A";
             String year = "N/A";
             String backDropImage = null;
+            String posterPath;
             try {
+                posterPath = detail.getJSONObject(0).getString("poster_path");
+                // Set onclick listener after fetch from detail api
+                setListener(filmType, filmId, filmName, posterPath);
                 title = detail.getJSONObject(0).getString("name")
                         != null ? detail.getJSONObject(0).getString("name") : "N/A";
                 overview = detail.getJSONObject(0).getString("overview")
@@ -160,7 +159,7 @@ public class DetailActivity extends AppCompatActivity {
         detailLoading.setVisibility(View.INVISIBLE);
     }
 
-    private void setListener(String filmType, int filmId, String filmName) {
+    private void setListener(String filmType, int filmId, String filmName, String posterPath) {
         Gson gson = new Gson();
         SharedPreferences sharedPreferences = this.getSharedPreferences("sharePrefs", Context.MODE_PRIVATE);
         String jsonOrderList = sharedPreferences.getString("orderList", "[]");
@@ -169,6 +168,7 @@ public class DetailActivity extends AppCompatActivity {
         List<String> filmList = new ArrayList<>();
         filmList.add(filmName);
         filmList.add(filmType);
+        filmList.add(posterPath);
 
         ImageView addWatch = findViewById(R.id.watch_icon);
         ImageView facebook = findViewById(R.id.facebook_icon);

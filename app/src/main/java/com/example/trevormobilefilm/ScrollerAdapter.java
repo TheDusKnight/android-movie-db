@@ -168,6 +168,7 @@ public class ScrollerAdapter extends RecyclerView.Adapter<ScrollerAdapter.Scroll
         List<String> filmList = new ArrayList<>();
         filmList.add(currentItem.getFilmName());
         filmList.add(currentItem.getFilmType());
+        filmList.add(currentItem.getImgUrl());
         editor.putString(String.valueOf(currentItem.getFilmId()), gson.toJson(filmList));
         editor.apply();
     }
