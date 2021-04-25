@@ -11,6 +11,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.gson.Gson;
@@ -41,9 +42,17 @@ public class WatchlistFragment extends Fragment {
         for (int i = 0; i < watchList.size(); i++) {
             int watchId = watchList.get(i);
             String watchCardInfo = sharedPreferences.getString(String.valueOf(watchId), "");
-            String[] nameType = gson.fromJson(watchCardInfo, String[].class);
-//            cardWatchList.add(new CardData())
+            String[] cardContent = gson.fromJson(watchCardInfo, String[].class);
+            String name = cardContent[0];
+            String type = cardContent[1];
+            String path = cardContent[2];
+            cardWatchList.add(new CardData(path, type, name, watchId));
         }
+
+        RecyclerView.LayoutManager watchLayoutManager = new GridLayoutManager(view.getContext(), 3);
+        WatchAdapter watchAdapter = new WatchAdapter(view.getContext(), cardWatchList);
+        watchView.setLayoutManager(watchLayoutManager);
+        watchView.setAdapter(watchAdapter);
     }
 
     private List<Integer> loadData(Gson gson, SharedPreferences sharedPreferences) {
