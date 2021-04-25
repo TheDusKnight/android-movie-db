@@ -9,6 +9,13 @@ public class CardData {
     private String date;
     private int rate;
 
+    public CardData(String imgUrl, String filmType, String filmName, int filmId) {
+        this.imgUrl = imgUrl;
+        this.filmType = filmType;
+        this.filmName = filmName;
+        this.filmId = filmId;
+    }
+
     public CardData(String imgUrl, String filmType, String filmName, int filmId, String date, int rate) {
         this.imgUrl = imgUrl;
         this.filmType = filmType;
