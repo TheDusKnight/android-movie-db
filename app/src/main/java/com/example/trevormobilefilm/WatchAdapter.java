@@ -2,16 +2,19 @@ package com.example.trevormobilefilm;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.gson.Gson;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -23,10 +26,16 @@ public class WatchAdapter extends RecyclerView.Adapter<WatchAdapter.WatchViewHol
     static final String FILM_NAME = "filmName";
     private final List<CardData> mScrollerItems;
     public Context mContext;
+    public Gson gson;
+    public List<Integer> watchList;
+    SharedPreferences.Editor editor;
 
-    public WatchAdapter(Context context, ArrayList<CardData> cardList) {
+    public WatchAdapter(Context context, ArrayList<CardData> cardList, List<Integer> watchList, Gson gson, SharedPreferences.Editor editor) {
         mContext = context;
         mScrollerItems = cardList;
+        this.watchList = watchList;
+        this.gson = gson;
+        this.editor = editor;
     }
 
     @NonNull
@@ -44,8 +53,15 @@ public class WatchAdapter extends RecyclerView.Adapter<WatchAdapter.WatchViewHol
         Picasso.get().load(currentItem.getImgUrl()).into(holder.mCardView);
 
         // Set OnClickListener for current icon
-        holder.mType.setOnClickListener(v -> {
-
+        holder.mRemoveView.setOnClickListener(v -> {
+            mScrollerItems.remove(position);
+            watchList.remove(position);
+            String jsonList = gson.toJson(watchList);
+            editor.putString("orderList", jsonList);
+            editor.apply();
+            notifyDataSetChanged();
+            Toast.makeText(mContext, currentItem.getFilmName() +
+                    " was removed from watchlist", Toast.LENGTH_SHORT).show();
         });
 
         // Set OnClickListener for current image

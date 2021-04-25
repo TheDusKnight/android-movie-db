@@ -34,15 +34,18 @@ public class WatchlistFragment extends Fragment {
         SharedPreferences.Editor editor = sharedPreferences.edit();
         // Listen for sharedPreference changes?
 
+
         createGridView(gson, sharedPreferences, editor, view);
         return view;
     }
 
-    @Override
-    public void onResume() {
-        super.onResume();
-
-    }
+//    @Override
+//    public void onResume() {
+//        super.onResume();
+//        RecyclerView recyclerView = getActivity().findViewById(R.id.watch_list);
+//        recyclerView.getAdapter().notifyDataSetChanged();
+//
+//    }
 
     private void createGridView(Gson gson, SharedPreferences sharedPreferences, SharedPreferences.Editor editor, View view) {
         ArrayList<CardData> cardWatchList = new ArrayList<>();
@@ -60,7 +63,7 @@ public class WatchlistFragment extends Fragment {
         }
 
         RecyclerView.LayoutManager watchLayoutManager = new GridLayoutManager(view.getContext(), 3);
-        WatchAdapter watchAdapter = new WatchAdapter(view.getContext(), cardWatchList);
+        WatchAdapter watchAdapter = new WatchAdapter(view.getContext(), cardWatchList, watchList, gson, editor);
         watchView.setLayoutManager(watchLayoutManager);
         watchView.setAdapter(watchAdapter);
 
