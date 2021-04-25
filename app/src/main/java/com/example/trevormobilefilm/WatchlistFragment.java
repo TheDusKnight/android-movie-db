@@ -12,12 +12,14 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.gson.Gson;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 public class WatchlistFragment extends Fragment {
@@ -53,6 +55,31 @@ public class WatchlistFragment extends Fragment {
         WatchAdapter watchAdapter = new WatchAdapter(view.getContext(), cardWatchList);
         watchView.setLayoutManager(watchLayoutManager);
         watchView.setAdapter(watchAdapter);
+
+        // Create simple callback for drag and drop
+        ItemTouchHelper.SimpleCallback simpleCallback = new ItemTouchHelper.
+                SimpleCallback(ItemTouchHelper.UP | ItemTouchHelper.DOWN |
+                ItemTouchHelper.START | ItemTouchHelper.END, 0) {
+            @Override
+            public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder target) {
+                int fromPosition = viewHolder.getAdapterPosition();
+                int toPosition = target.getAdapterPosition();
+
+                Collections.swap(cardWatchList, fromPosition, toPosition);
+//                recyclerView.getAdapter().notifyItemMoved(fromPosition, toPosition);
+                recyclerView.getAdapter().notifyDataSetChanged();
+
+                return false;
+            }
+
+            @Override
+            public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
+
+            }
+        };
+
+        ItemTouchHelper itemTouchHelper = new ItemTouchHelper(simpleCallback);
+        itemTouchHelper.attachToRecyclerView(watchView);
     }
 
     private List<Integer> loadData(Gson gson, SharedPreferences sharedPreferences) {

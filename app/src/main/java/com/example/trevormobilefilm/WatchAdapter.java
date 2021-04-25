@@ -38,7 +38,7 @@ public class WatchAdapter extends RecyclerView.Adapter<WatchAdapter.WatchViewHol
     public void onBindViewHolder(@NonNull WatchViewHolder holder, int position) {
         CardData currentItem = mScrollerItems.get(position);
 
-        holder.mType.setText(currentItem.getFilmType());
+        holder.mType.setText(capitalizeString(currentItem.getFilmType()));
         Picasso.get().load(currentItem.getImgUrl()).into(holder.mCardView);
     }
 
@@ -55,8 +55,17 @@ public class WatchAdapter extends RecyclerView.Adapter<WatchAdapter.WatchViewHol
         public WatchViewHolder(@NonNull View itemView) {
             super(itemView);
             mCardView = itemView.findViewById(R.id.watch_card);
+            mCardView.setScaleType(ImageView.ScaleType.CENTER_CROP);
             mType = itemView.findViewById(R.id.watch_type);
             mRemoveView = itemView.findViewById(R.id.watch_remove);
         }
+    }
+
+    public static String capitalizeString(String str) {
+        String retStr = str;
+        try { // We can face index out of bound exception if the string is null
+            retStr = str.substring(0, 1).toUpperCase() + str.substring(1);
+        } catch (Exception e){}
+        return retStr;
     }
 }
