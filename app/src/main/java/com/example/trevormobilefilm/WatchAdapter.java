@@ -20,6 +20,7 @@ import com.squareup.picasso.Picasso;
 import java.util.ArrayList;
 import java.util.List;
 
+// TODO: set watchEmpty textView, and go back from prior activity how to check if delete
 public class WatchAdapter extends RecyclerView.Adapter<WatchAdapter.WatchViewHolder> {
     static final String FILM_ID = "filmId";
     static final String FILM_TYPE = "filmType";
@@ -39,12 +40,6 @@ public class WatchAdapter extends RecyclerView.Adapter<WatchAdapter.WatchViewHol
         this.gson = gson;
         this.editor = editor;
         this.watchEmpty = watchEmpty;
-
-//        if (mScrollerItems.size() <= 0) {
-//            watchEmpty.setVisibility(View.VISIBLE);
-//        } else {
-//            watchEmpty.setVisibility(View.INVISIBLE);
-//        }
     }
 
     @NonNull

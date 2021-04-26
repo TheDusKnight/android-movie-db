@@ -22,7 +22,6 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
-// TODO: set watchEmpty textView, and go back from prior activity check
 public class WatchlistFragment extends Fragment{
     @Nullable
     @Override
@@ -40,13 +39,15 @@ public class WatchlistFragment extends Fragment{
         return view;
     }
 
-//    @Override
-//    public void onResume() {
-//        super.onResume();
-//        RecyclerView recyclerView = getActivity().findViewById(R.id.watch_list);
+    @Override
+    public void onResume() {
+        // TODO: Watchlist fragment to details activity and back
+        super.onResume();
+        RecyclerView recyclerView = getActivity().findViewById(R.id.watch_list);
+//        recyclerView.setVisibility(View.INVISIBLE);
 //        recyclerView.getAdapter().notifyDataSetChanged();
-//
-//    }
+
+    }
 
     private void createGridView(Gson gson, SharedPreferences sharedPreferences,
                                 SharedPreferences.Editor editor, View view, TextView watchEmpty) {
