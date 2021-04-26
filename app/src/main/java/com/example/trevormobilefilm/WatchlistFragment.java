@@ -24,40 +24,28 @@ import java.util.List;
 
 public class WatchlistFragment extends Fragment{
     View view;
-
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_watchlist, container, false);
-//        TextView watchEmpty = view.findViewById(R.id.watch_empty);
-//        // Get shared preference on create;
-//        Gson gson = new Gson();
-//        SharedPreferences sharedPreferences = getContext().getSharedPreferences("sharePrefs", Context.MODE_PRIVATE);
-//        SharedPreferences.Editor editor = sharedPreferences.edit();
-//        // Listen for sharedPreference changes?
-//
-//        createGridView(gson, sharedPreferences, editor, view, watchEmpty);
         return view;
     }
 
     @Override
     public void onResume() {
         super.onResume();
-
-        TextView watchEmpty = view.findViewById(R.id.watch_empty);
         // Get shared preference on create;
         Gson gson = new Gson();
         SharedPreferences sharedPreferences = getContext().getSharedPreferences("sharePrefs", Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
-        // Listen for sharedPreference changes?
-
-        createGridView(gson, sharedPreferences, editor, view, watchEmpty);
+        createGridView(gson, sharedPreferences, editor, view);
     }
 
     private void createGridView(Gson gson, SharedPreferences sharedPreferences,
-                                SharedPreferences.Editor editor, View view, TextView watchEmpty) {
+                                SharedPreferences.Editor editor, View view) {
         ArrayList<CardData> cardWatchList = new ArrayList<>();
         RecyclerView watchView  = view.findViewById(R.id.watch_list);
+        TextView watchEmpty = view.findViewById((R.id.watch_empty));
 
         List<Integer> watchList = loadData(gson, sharedPreferences);
         for (int i = 0; i < watchList.size(); i++) {
