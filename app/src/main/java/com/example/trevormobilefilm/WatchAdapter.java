@@ -51,11 +51,11 @@ public class WatchAdapter extends RecyclerView.Adapter<WatchAdapter.WatchViewHol
 
     @Override
     public void onBindViewHolder(@NonNull WatchViewHolder holder, int position) {
-//        if (mScrollerItems.size() <= 0) {
-//            watchEmpty.setVisibility(View.VISIBLE);
-//        } else {
-//            watchEmpty.setVisibility(View.INVISIBLE);
-//        }
+        if (mScrollerItems.size() <= 0) {
+            watchEmpty.setVisibility(View.VISIBLE);
+        } else {
+            watchEmpty.setVisibility(View.INVISIBLE);
+        }
 
         CardData currentItem = mScrollerItems.get(position);
 
@@ -72,6 +72,12 @@ public class WatchAdapter extends RecyclerView.Adapter<WatchAdapter.WatchViewHol
             notifyDataSetChanged();
             Toast.makeText(mContext, currentItem.getFilmName() +
                     " was removed from watchlist", Toast.LENGTH_SHORT).show();
+
+            if (mScrollerItems.size() <= 0) {
+                watchEmpty.setVisibility(View.VISIBLE);
+            } else {
+                watchEmpty.setVisibility(View.INVISIBLE);
+            }
         });
 
         // Set OnClickListener for current image

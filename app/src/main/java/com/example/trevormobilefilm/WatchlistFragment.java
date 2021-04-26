@@ -23,10 +23,27 @@ import java.util.Collections;
 import java.util.List;
 
 public class WatchlistFragment extends Fragment{
+    View view;
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_watchlist, container, false);
+        view = inflater.inflate(R.layout.fragment_watchlist, container, false);
+//        TextView watchEmpty = view.findViewById(R.id.watch_empty);
+//        // Get shared preference on create;
+//        Gson gson = new Gson();
+//        SharedPreferences sharedPreferences = getContext().getSharedPreferences("sharePrefs", Context.MODE_PRIVATE);
+//        SharedPreferences.Editor editor = sharedPreferences.edit();
+//        // Listen for sharedPreference changes?
+//
+//        createGridView(gson, sharedPreferences, editor, view, watchEmpty);
+        return view;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
         TextView watchEmpty = view.findViewById(R.id.watch_empty);
         // Get shared preference on create;
         Gson gson = new Gson();
@@ -34,19 +51,7 @@ public class WatchlistFragment extends Fragment{
         SharedPreferences.Editor editor = sharedPreferences.edit();
         // Listen for sharedPreference changes?
 
-
         createGridView(gson, sharedPreferences, editor, view, watchEmpty);
-        return view;
-    }
-
-    @Override
-    public void onResume() {
-        // TODO: Watchlist fragment to details activity and back
-        super.onResume();
-        RecyclerView recyclerView = getActivity().findViewById(R.id.watch_list);
-//        recyclerView.setVisibility(View.INVISIBLE);
-//        recyclerView.getAdapter().notifyDataSetChanged();
-
     }
 
     private void createGridView(Gson gson, SharedPreferences sharedPreferences,
