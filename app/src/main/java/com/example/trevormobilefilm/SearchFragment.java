@@ -71,7 +71,7 @@ public class SearchFragment extends Fragment {
                                 String filmType = mObject.getString("media_type");
                                 String filmName = mObject.getString("name");
                                 int filmId = mObject.getInt("id");
-                                int filmRate = mObject.getInt("rate");
+                                double filmRate = mObject.getDouble("rate");
                                 String filmDate = mObject.getString("date");
                                 cardSearchDataArrayList.add(new CardData(backPath, filmType, filmName, filmId, filmDate, filmRate));
                             }

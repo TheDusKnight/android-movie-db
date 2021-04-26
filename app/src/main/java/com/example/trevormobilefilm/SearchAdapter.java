@@ -17,6 +17,7 @@ import com.squareup.picasso.Picasso;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Locale;
 
 public class SearchAdapter extends  RecyclerView.Adapter<SearchAdapter.SearchViewHolder> {
     static final String FILM_ID = "filmId";
@@ -51,7 +52,7 @@ public class SearchAdapter extends  RecyclerView.Adapter<SearchAdapter.SearchVie
             typeYear = currentItem.getFilmType();
         }
         holder.mTypeYear.setText(typeYear);
-        holder.mRate.setText(String.valueOf(currentItem.getRate()));
+        holder.mRate.setText(String.format(Locale.US, "%.1f", currentItem.getRate() / 2));
         Picasso.get().load(currentItem.getImgUrl())
                 .into(holder.mImageView);
 
