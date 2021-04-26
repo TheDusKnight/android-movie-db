@@ -14,6 +14,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
+import android.widget.ScrollView;
 import android.widget.TableLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -50,11 +51,17 @@ public class DetailActivity extends AppCompatActivity {
     TextView genresView;
     TextView yearView;
     ImageView backDropView;
+    ScrollView detailView;
+    RelativeLayout detailLoading;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail);
+
+        detailView = findViewById(R.id.detail_view);
+        detailView.setVisibility(View.INVISIBLE);
+        detailLoading = findViewById(R.id.detail_loading);
 
         // Get Intent
         Intent intent = getIntent();
@@ -118,45 +125,52 @@ public class DetailActivity extends AppCompatActivity {
                 }
                 // Create YouTube player or set background image
                 createYouTube(videoId, finalBackDropImage);
+
+                jsonParse(MainActivity.URL + "/recommend/" + filmType + "/" + filmId, recommendFilms -> {
+                    ArrayList<CardData> cardTrendDataArrayList = new ArrayList<>();
+                    RecyclerView trendScrollView = findViewById(R.id.recommend_scroller);
+
+                    try {
+                        for (int i = 0; i < recommendFilms.length(); i++) {
+                            JSONObject mObject = recommendFilms.getJSONObject(i);
+                            String innerPosterPath = mObject.getString("poster_path");
+                            String innerFilmType = mObject.getString("media_type");
+                            String innerFilmName = mObject.getString("name");
+                            int innerFilmId = mObject.getInt("id");
+                            boolean innerAdd = false;
+                            cardTrendDataArrayList.add(new CardData(innerPosterPath, innerAdd,
+                                    innerFilmType, innerFilmName, innerFilmId));
+                        }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+
+                    RecyclerView.LayoutManager recommendLayoutManager = new LinearLayoutManager(this,
+                            LinearLayoutManager.HORIZONTAL, false);
+                    ScrollerAdapter topAdapter = new ScrollerAdapter(this,
+                            cardTrendDataArrayList, "basic");
+                    trendScrollView.setLayoutManager(recommendLayoutManager);
+                    trendScrollView.setAdapter(topAdapter);
+
+                    fillCast(filmType, filmId);
+                });
             });
         });
 
-        jsonParse(MainActivity.URL + "/recommend/" + filmType + "/" + filmId, recommendFilms -> {
-            ArrayList<CardData> cardTrendDataArrayList = new ArrayList<>();
-            RecyclerView trendScrollView = findViewById(R.id.recommend_scroller);
 
-            try {
-                for (int i = 0; i < recommendFilms.length(); i++) {
-                    JSONObject mObject = recommendFilms.getJSONObject(i);
-                    String innerPosterPath = mObject.getString("poster_path");
-                    String innerFilmType = mObject.getString("media_type");
-                    String innerFilmName = mObject.getString("name");
-                    int innerFilmId = mObject.getInt("id");
-                    boolean innerAdd = false;
-                    cardTrendDataArrayList.add(new CardData(innerPosterPath, innerAdd,
-                            innerFilmType, innerFilmName, innerFilmId));
-                }
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
 
-            RecyclerView.LayoutManager recommendLayoutManager = new LinearLayoutManager(this,
-                    LinearLayoutManager.HORIZONTAL, false);
-            ScrollerAdapter topAdapter = new ScrollerAdapter(this,
-                    cardTrendDataArrayList, "basic");
-            trendScrollView.setLayoutManager(recommendLayoutManager);
-            trendScrollView.setAdapter(topAdapter);
-        });
-
-        fillCast(filmType, filmId);
-        fillReview(filmType, filmId);
+//        fillCast(filmType, filmId);
+//        fillReview(filmType, filmId);
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        RelativeLayout detailLoading = findViewById(R.id.detail_loading);
-        detailLoading.setVisibility(View.INVISIBLE);
+//        RelativeLayout detailLoading = findViewById(R.id.detail_loading);
+//        detailLoading.setVisibility(View.INVISIBLE);
+//
+//        ScrollView detailLayout = findViewById(R.id.detail_view);
+//        detailLayout.setVisibility(View.VISIBLE);
     }
 
     private void setListener(String filmType, int filmId, String filmName, String posterPath) {
@@ -286,6 +300,9 @@ public class DetailActivity extends AppCompatActivity {
                     });
                 }
             }
+
+            detailView.setVisibility(View.VISIBLE);
+            detailLoading.setVisibility(View.GONE);
         });
     }
 
@@ -324,6 +341,8 @@ public class DetailActivity extends AppCompatActivity {
                     findViewById(R.id.less_cast_img).setVisibility(View.GONE);
                 }
             }
+
+            fillReview(filmType, filmId);
         });
     }
 
