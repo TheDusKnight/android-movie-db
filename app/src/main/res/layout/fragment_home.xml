@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/fragment_home"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
@@ -50,6 +49,7 @@
                     android:layout_below="@id/slider"
                     android:layout_marginTop="16dp"
                     android:layout_marginBottom="5dp"
+                    android:textColor="@color/white"
                     android:text="Top-Rated"
                     android:textSize="30sp" />
 
@@ -68,6 +68,7 @@
                     android:layout_below="@id/top_scroller"
                     android:layout_marginTop="5dp"
                     android:layout_marginBottom="5dp"
+                    android:textColor="@color/white"
                     android:text="Popular"
                     android:textSize="30sp" />
 
