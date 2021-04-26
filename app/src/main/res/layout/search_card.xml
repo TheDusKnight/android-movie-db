@@ -28,9 +28,16 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:layout_marginTop="16dp"
+            android:shadowColor="#000000"
+            android:shadowRadius="10"
+            android:shadowDx="5"
+            android:shadowDy="5"
+            android:fontFamily="sans-serif-smallcaps"
+            android:textStyle="bold"
+            android:textSize="17sp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            tools:text="TextView" />
+            tools:text="Text View" />
 
         <TextView
             android:id="@+id/search_rate"
@@ -38,7 +45,14 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
             android:layout_marginEnd="16dp"
-            tools:text="TextView"
+            android:fontFamily="sans-serif-smallcaps"
+            android:textStyle="bold"
+            android:shadowColor="#000000"
+            android:shadowRadius="10"
+            android:shadowDx="5"
+            android:shadowDy="5"
+            tools:text="Text View"
+            android:textSize="17sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -48,9 +62,16 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:layout_marginBottom="16dp"
-            tools:text="TextView"
+            android:fontFamily="sans-serif-smallcaps"
+            android:textStyle="bold"
+            android:shadowColor="#000000"
+            android:shadowRadius="10"
+            android:shadowDx="5"
+            android:shadowDy="5"
+            android:textSize="17sp"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
+            app:layout_constraintStart_toStartOf="parent"
+            tools:text="Text View" />
 
         <ImageView
             android:id="@+id/imageView"
