@@ -46,8 +46,15 @@ public class WatchlistFragment extends Fragment{
         ArrayList<CardData> cardWatchList = new ArrayList<>();
         RecyclerView watchView  = view.findViewById(R.id.watch_list);
         TextView watchEmpty = view.findViewById((R.id.watch_empty));
-
         List<Integer> watchList = loadData(gson, sharedPreferences);
+
+        // Every time onResume check watchEmpty
+        if (watchList.size() <= 0) {
+            watchEmpty.setVisibility(View.VISIBLE);
+        } else {
+            watchEmpty.setVisibility(View.INVISIBLE);
+        }
+
         for (int i = 0; i < watchList.size(); i++) {
             int watchId = watchList.get(i);
             String watchCardInfo = sharedPreferences.getString(String.valueOf(watchId), "");
